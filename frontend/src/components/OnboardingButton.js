@@ -1,7 +1,7 @@
 import React from 'react'
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 
-const Buttons = ({on_press,btn_text}) => {
+const OnboardingButtons = ({on_press,btn_text}) => {
     return (
         <TouchableOpacity style={{justifyContent:'center',width:'95%',backgroundColor:Colors.primary,height:50,marginBottom:30,borderRadius:10}} 
         onPress={on_press}
@@ -13,6 +13,6 @@ const Buttons = ({on_press,btn_text}) => {
     )
 }
 
-export default Buttons
+export default OnboardingButtons
 
 const styles = StyleSheet.create({})

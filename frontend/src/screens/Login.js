@@ -2,43 +2,61 @@ import React,{useState} from 'react'
 import { StyleSheet, Text, ScrollView,View,StatusBar,Image,TextInput, TouchableOpacity } from 'react-native'
 import {Colors} from '../../src/constants'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import Buttons from '../components/Buttons'
+import Buttons from '../components/OnboardingButton'
+import Loader from '../components/Loader';
+import SignUpButton from '../components/SignUpButton'
 
-const Login = () => {
+const Login = ({navigation}) => {
 
+    // To do: login handlers, forgot password, google auth, refactor using another input component
     const [formData,setformData] = useState({
         email:'',
         password:''
     })
+    const [loading, setLoading] = React.useState(false);
+
+    // placeholder login function
+    const login = () => {
+        setLoading(true);
+        setTimeout(() => {
+        try {
+            setLoading(false);
+            AsyncStorage.setItem('userData', JSON.stringify(inputs));
+            navigation.navigate('LoginScreen');
+        } catch (error) {
+            Alert.alert('Error', 'Something went wrong');
+        }
+        }, 3000);
+    };
 
     return (
         <ScrollView style={{flex:1,backgroundColor:'#fff',flexDirection:'column'}}>
+            <Loader visible={loading} />
             <StatusBar barStyle="dark-content" backgroundColor="#fff" />
             {/* login form section */}
-            <View style={{flex:2,flexDirection:'column',backgroundColor:'#fff',paddingTop:10,paddingHorizontal:'3%'}} >
-                <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}} >
-                    <Text style={{fontSize:30,color:Colors.black,paddingTop:20}} >Ready to get parking?</Text>
-                </View>
+            <View style={{flexDirection:'column',backgroundColor:'#fff',paddingTop:50,paddingHorizontal:'3%'}} >
+                    <Text style={{color: Colors.black, fontSize: 35, fontWeight: 'bold'}}>Login</Text>
+                    <Text style={{color: Colors.grey, fontSize: 18, marginVertical: 10}}>Enter Your Details to Login</Text>
 
-                <View style={{flexDirection:'column',paddingTop:60}} >
-                    <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:'#ededed',width:'95%',borderRadius:10,height:60,paddingLeft:20}} >
+                <View style={{flexDirection:'column',paddingTop:50}} >
+                    <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:Colors.light_grey,width:'95%',borderRadius:10,height:60,paddingLeft:20}} >
                         <Icon name="envelope-o" size={22} color="#818181" />
                         <TextInput onChangeText={(text)=>{setformData((prevState)=>({...prevState,email:text}))}} style={styles.input} placeholder="Enter Email" placeholderTextColor="#818181" />
 
                     </View>
 
-                    <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:'#ededed',width:'95%',borderRadius:10,height:60,paddingLeft:20,marginTop:20}} >
+                    <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:Colors.light_grey,width:'95%',borderRadius:10,height:60,paddingLeft:20,marginTop:20}} >
                         <Icon name="lock" size={22} color="#818181" />
                         <TextInput onChangeText={(text)=>{setformData((prevState)=>({...prevState,password:text}))}} style={styles.input} placeholder="Enter Password" secureTextEntry={true} placeholderTextColor="#818181" />
                     </View>
 
                     <View style={{width:'100%',marginBottom:10}} >
                         <TouchableOpacity onPress={()=>console.log("Forgot Password")} style={styles.forgot_pw} >  
-                            <Text style={{fontSize:15, color:'#818181',alignSelf:'flex-end',paddingTop:10, textAlign:'right'}} >Forgot Password?</Text>
+                            <Text style={{fontSize:15, color:Colors.darker_grey,alignSelf:'flex-end',paddingTop:10, textAlign:'right'}} >Forgot Password?</Text>
                         </TouchableOpacity>    
                     </View>
 
-                    <Buttons  btn_text={"Sign In"} on_press={()=>console.log(formData)} />
+                    <SignUpButton title={"Get Parking!"} onPress={login} />
                 </View>
             </View>
 
@@ -46,7 +64,7 @@ const Login = () => {
             <View style={{flex:2,backgroundColor:'#fff',flexDirection:'column',paddingHorizontal:'3%'}} >
                 <Text style={{textAlign:'center',marginVertical:35,color:'#818181',fontSize:20}} >Or</Text>
                 
-                {/* Google Authentication to be changed */}
+                {/* To do: Google Authentication */}
                 <View style={{flexDirection:'column',alignItems:'center',width:'95%'}} >
                     <TouchableOpacity onPress={()=>console.log("google login")} style={styles.social_btn} >  
                         <Image style={styles.social_img} source={require('../assets/Images/google_icon.png')} />
@@ -54,10 +72,10 @@ const Login = () => {
                     </TouchableOpacity>
                 </View>
 
-                {/* Navigate to Sign Up page, work in progress */}
+                {/* Navigate to Sign Up page*/}
                 <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'flex-end',backgroundColor:'#fff',marginBottom:40}} >
-                    <Text style={{fontSize:17,color:'#818181'}} >Don't have a account? </Text>
-                    <TouchableOpacity onPress={()=>console.log("Sign Up")}>  
+                    <Text style={{fontSize:17,color:Colors.darker_grey}} >Don't have a account? </Text>
+                    <TouchableOpacity onPress={()=>navigation.navigate("SignUp")}>  
                             <Text style={{fontSize:17, color:'#333'}} >Sign Up!</Text>
                     </TouchableOpacity>    
                 </View>

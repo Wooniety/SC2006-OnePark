@@ -1,27 +1,175 @@
-import React, { useEffect, useState } from "react";
+import React from 'react';
 import {
-  KeyboardAvoidingView,
-  StyleSheet,
-  Text,
   View,
-  Button,
+  Text,
   SafeAreaView,
-  Alert,
-  TextInput,
-  Image,
-  Pressable,
   Keyboard,
-  TouchableWithoutFeedback,
+  ScrollView,
+  Alert,
   TouchableOpacity,
-} from "react-native";
+} from 'react-native';
+import {
+	RegExpMatcher,
+	englishDataset,
+	englishRecommendedTransformers,
+} from 'obscenity';
+import {Colors} from '../../src/constants'
+import Input from '../components/Input';
+import SignUpButton from '../components/SignUpButton'
+import Loader from '../components/Loader';
 
+const SignUp = ({navigation}) => {
+  const [inputs, setInputs] = React.useState({
+    email: '',
+    fullname: '',
+    phone: '',
+    password: '',
+  });
+  const [errors, setErrors] = React.useState({});
+  const [loading, setLoading] = React.useState(false);
 
-const signUpScreen = ({ navigation }) => {
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Sign Up Screen</Text>
+  const containsOnlyNumbers = (input) => {
+    return /^[0-9]+$/.test(input);
+  };
+
+  const containsSpecialCharacter = (input) => {
+    return /[!@#$%^&*(),.?":{}|<>]/.test(input);
+  }
+
+  const profanity_Matcher = new RegExpMatcher({
+    ...englishDataset.build(),
+    ...englishRecommendedTransformers,
+  });
+
+  const validate = () => {
+    Keyboard.dismiss();
+    let isValid = true;
+
+    if (!inputs.email) {
+      handleError('Please input email!', 'email');
+      isValid = false;
+    } else if (!inputs.email.match(/\S+@\S+\.\S+/)) {
+      handleError('Invalid email!', 'email');
+      isValid = false;
+    }
+
+    // To do: implement whether name already exists
+    if (!inputs.fullname) {
+      handleError('Please input full name!', 'fullname');
+      isValid = false;
+    } else if (profanity_Matcher.hasMatch(inputs.fullname)) {
+      handleError('Please mind your language!', 'fullname');
+      isValid = false;
+    }
+
+    if (!inputs.phone) {
+      handleError('Please input phone number!', 'phone');
+      isValid = false;
+    } else if (!containsOnlyNumbers(inputs.phone)) {
+      handleError('Invalid phone number!', 'phone');
+      isValid = false;
+    }
+
+    if (!inputs.password) {
+      handleError('Please input password!', 'password');
+      isValid = false;
+    } else if (inputs.password.length < 5) {
+      handleError('Minimum password length of 5!', 'password');
+      isValid = false;
+    } else if (inputs.password.length > 30) {
+      handleError('Maximum password length of 30!', 'password');
+      isValid = false;
+    } else if (!containsSpecialCharacter(inputs.password)) {
+      handleError('Please include at least 1 special character!', 'password');
+      isValid = false;
+    }
+
+    if (isValid) {
+      register();
+    }
+  };
+
+  // placeholder register function
+  const register = () => {
+    setLoading(true);
+    setTimeout(() => {
+      try {
+        setLoading(false);
+        AsyncStorage.setItem('userData', JSON.stringify(inputs));
+        navigation.navigate('LoginScreen');
+      } catch (error) {
+        Alert.alert('Error', 'Something went wrong');
+      }
+    }, 3000);
+  };
+
+  const handleOnchange = (text, input) => {
+    setInputs(prevState => ({...prevState, [input]: text}));
+  };
+  const handleError = (error, input) => {
+    setErrors(prevState => ({...prevState, [input]: error}));
+  };
+
+  return (
+    <SafeAreaView style={{backgroundColor: Colors.white, flex: 1}}>
+      <Loader visible={loading} />
+      <ScrollView
+        contentContainerStyle={{paddingTop: 50, paddingHorizontal: 20}}>
+        <Text style={{color: Colors.black, fontSize: 40, fontWeight: 'bold'}}>
+          Register
+        </Text>
+        <Text style={{color: Colors.grey, fontSize: 18, marginVertical: 10}}>
+          Enter Your Details to Register
+        </Text>
+        <View style={{marginVertical: 20}}>
+          <Input
+            onChangeText={text => handleOnchange(text, 'email')}
+            onFocus={() => handleError(null, 'email')}
+            iconName="email-outline"
+            label="Email"
+            placeholder="Enter your email address"
+            error={errors.email}
+          />
+
+          <Input
+            onChangeText={text => handleOnchange(text, 'fullname')}
+            onFocus={() => handleError(null, 'fullname')}
+            iconName="account-outline"
+            label="Full Name"
+            placeholder="Enter your full name"
+            error={errors.fullname}
+          />
+
+          <Input
+            keyboardType="numeric"
+            onChangeText={text => handleOnchange(text, 'phone')}
+            onFocus={() => handleError(null, 'phone')}
+            iconName="phone-outline"
+            label="Phone Number"
+            placeholder="Enter your phone no"
+            error={errors.phone}
+          />
+          <Input
+            onChangeText={text => handleOnchange(text, 'password')}
+            onFocus={() => handleError(null, 'password')}
+            iconName="lock-outline"
+            label="Password"
+            placeholder="Enter your password"
+            error={errors.password}
+            password
+          />
+          <SignUpButton title="Register" onPress={validate} />
+
+          <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'flex-end',backgroundColor:'#fff',marginBottom:40}} >
+            <Text style={{fontSize:17,color:Colors.darker_grey}} >Already have an account? </Text>
+              <TouchableOpacity onPress={()=>navigation.navigate("Login")}>  
+                <Text style={{fontSize:17, color:'#333'}} >Login!</Text>
+              </TouchableOpacity>    
+          </View>
         </View>
-      );
+      </ScrollView>
+    </SafeAreaView>
+  );
 };
-  
-export default signUpScreen
+
+export default SignUp;
