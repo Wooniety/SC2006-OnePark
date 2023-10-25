@@ -10,7 +10,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const users = require('../model/users.js');
-var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var carparksRouter = require('./routes/carparks');
 
@@ -31,7 +30,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/carparks', carparksRouter)
 
