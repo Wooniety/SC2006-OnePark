@@ -1,3 +1,0 @@
-ACCESS KEY: 23a62fc2-4b29-489f-943a-d65dd12ec64e
-
-GENERATE TOKEN LINK: http://www.ura.gov.sg/uraDataService/getToken.jsp?
