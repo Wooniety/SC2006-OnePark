@@ -1,4 +1,4 @@
-const database = require('./database_config');
+const pool = require('../controller/routes/database');
 
 const bcrypt = require('bcryptjs');
 
@@ -11,7 +11,7 @@ const users = {
 			SELECT * FROM users;
 		`;
 
-		database.query(findAllQuery, (err, results) => {
+		pool.query(findAllQuery, (err, results) => {
 			// Error querying database
 			if (err) {
 			callback (err, null);
@@ -24,7 +24,7 @@ const users = {
 			return;
 			}
 
-		}); // End of database query
+		}); // End of pool.query
 	}, // End of 'findAll' function
 	insert: function(requestBody, callback) {
 		insertQuery = 
@@ -37,7 +37,7 @@ const users = {
 		// Hash the user's password
 		bcrypt.genSalt(saltRounds, function (err, salt) {
 			bcrypt.hash(requestBody.password, salt, function (err, hash) {
-			database.query(insertQuery, [requestBody.name, requestBody.email, hash, requestBody.phonenum], (err, results) => {
+			pool.query(insertQuery, [requestBody.name, requestBody.email, hash, requestBody.phonenum], (err, results) => {
 				// Error querying database
 				if (err) {
 				callback (err, null);
@@ -49,7 +49,7 @@ const users = {
 				callback (null, results.insertId);
 				return;
 				}
-			}); // End of database query
+			}); // End of pool.query
 			});
 		});
 	}, // End of 'insert' function
@@ -61,7 +61,7 @@ const users = {
 			WHERE userid = ?
 		`
 
-		database.query(editQuery, [requestBody.email, ID], (err) => {
+		pool.query(editQuery, [requestBody.email, ID], (err) => {
 			// Error querying database
 			if (err) {
 				callback(err);
@@ -73,7 +73,7 @@ const users = {
 				callback(null);
 				return;
 			}
-		}); // End of database query
+		}); // End of pool.query
 	}, // End of 'edit' function
 	findByID: function(ID, callback) {
 		findByIDQuery =
@@ -82,7 +82,7 @@ const users = {
 			WHERE userid = ?
 		`;
 
-		database.query(findByIDQuery, ID, (err, result) => {
+		pool.query(findByIDQuery, ID, (err, result) => {
 			// Error querying database
 			if (err) {
 			callback (err, null);
@@ -94,7 +94,7 @@ const users = {
 			callback(null, result);
 			return;
 			}; 
-		}); // End of database query
+		}); // End of pool.query
 	}, // End of 'findByID' function
 	findByEmail: function(email, callback) {
 		findByIDQuery =
@@ -103,7 +103,7 @@ const users = {
 			WHERE email = ?
 		`;
 
-		database.query(findByIDQuery, email, (err, result) => {
+		pool.query(findByIDQuery, email, (err, result) => {
 			// Error querying database
 			if (err) {
 			callback (err, null);
@@ -115,7 +115,7 @@ const users = {
 			callback(null, result);
 			return;
 			}; 
-		}); // End of database query
+		}); // End of pool.query
 	}, // End of 'findByID' function
 	verify: function (email, password, callback) {
 		const verifyQuery = `
@@ -123,7 +123,7 @@ const users = {
 			WHERE email = ? LIMIT 1;
 		`;
 
-		database.query(verifyQuery, email, (err, result) => {
+		pool.query(verifyQuery, email, (err, result) => {
 			// Error occurred querying the database
 			if (err) {
 			callback (err, null);
@@ -141,7 +141,7 @@ const users = {
 			// Store the user's details
 			const user = result[0];
 
-			// Compare the retrieved hash password from the database with the provided password
+			// Compare the retrieved hash password from the pool.with the provided password
 			bcrypt.compare(password, user.password, (err, comparedResult) => {
 				// Error occurred comparing the provided and retrieved password
 				if (err) {
@@ -166,7 +166,7 @@ const users = {
 
 			};
 
-		}); // End of database query
+		}); // End of pool.query
 	} // End of verify function
 
 	// TODO OTP
