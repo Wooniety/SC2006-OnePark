@@ -1,4 +1,4 @@
-const pool = require('../controller/routes/database');
+const pool = require('../controller/database');
 
 const bcrypt = require('bcryptjs');
 
