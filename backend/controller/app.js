@@ -59,32 +59,20 @@ app.post('/login/', (request, response, next) => {
 					user_id: result.USERS_ID
 				}
 
-				jwt.sign(payload, JWT_SECRET, { algorithm: 'HS256' }, (err, token) => {
-					// Error occurred
-					if (err) {
-						console.log(err);
-						response.status(400).send("Error occurred");
-						return;
-					}
+				// Remove the 'password' attribute from the user details
+				delete result['PASSWORD'];
 
-					// NO error occurred
-					else if (!err) {
-						// Remove the 'password' attribute from the user details
-						delete result['PASSWORD'];
+				// Return a response
+				response.status(200).send({
+					// For the benefit of the front-end login page
+					success: true,
+					userData: JSON.stringify(result),
+					status: "Successful login",
 
-						// Return a response
-						response.status(200).send({
-							// For the benefit of the front-end login page
-							success: true,
-							userData: JSON.stringify(result),
-							status: "Successful login",
-
-							user_id: result.USERS_ID
-						});
+					user_id: result.USERS_ID
+				});
 						
-						return;
-					};
-				}); // End of jwt.sign()
+				return;
 			};
 		};
 
