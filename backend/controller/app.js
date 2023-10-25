@@ -30,7 +30,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
-app.use('/users', usersRouter);
 app.use('/carparks', carparksRouter)
 
 app.use(function(req, res, next) {
