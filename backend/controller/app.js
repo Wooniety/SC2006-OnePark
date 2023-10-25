@@ -32,9 +32,6 @@ app.use(bodyParser.json());
 
 app.use('/carparks', carparksRouter)
 
-app.use(function(req, res, next) {
-  next(createError(404));
-});
 
 // User login
 app.post('/login/', (request, response, next) => {
@@ -204,5 +201,9 @@ app.put('/users/:userID', (request, response, next) => {
 		};
 	});
 }); 
+
+app.use(function(req, res, next) {
+  next(createError(404));
+});
 
 module.exports = app;
