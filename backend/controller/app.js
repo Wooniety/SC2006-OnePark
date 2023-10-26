@@ -153,10 +153,10 @@ app.get('/verify/email', (request, response, next) => {
 		// No errors
 		else {
 			if (results.length > 0){
-				response.status(401).send(`{\n"success": ${true}\n}`);
+				response.status(200).send(`{\n"success": ${true}\n}`);
 				return;
 			} else{
-				response.status(200).send(`{\n"success": ${false}\n}`);
+				response.status(401).send(`{\n"success": ${false}\n}`);
 			}
 		};
 	});
