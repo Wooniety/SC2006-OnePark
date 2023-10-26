@@ -32,7 +32,6 @@ app.use(bodyParser.json());
 
 app.use('/carparks', carparksRouter)
 
-
 // User login
 app.post('/login/', (request, response, next) => {
 	var email = request.body.email;
@@ -159,7 +158,7 @@ app.get('/verify/email', (request, response, next) => {
 	});
 }); 
 
-// Update a single user
+// Update user email
 app.put('/users/:userID', (request, response, next) => {
 	const userID = request.params.userID;
 	const requestBody = request.body;
@@ -167,7 +166,7 @@ app.put('/users/:userID', (request, response, next) => {
 	users.edit(userID, requestBody, (err) => {
 		// Errors
 		if (err) {
-			// Duplicate username
+			// Duplicate email
 			if (err.code == 'ER_DUP_ENTRY') {
 				console.log(err);
 				response.status(422).send("The email already exists");

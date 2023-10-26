@@ -97,13 +97,13 @@ const users = {
 		}); // End of pool.query
 	}, // End of 'findByID' function
 	findByEmail: function(email, callback) {
-		findByIDQuery =
+		findByEmailQuery = 
 		`
 			SELECT * FROM users
-			WHERE email = ?
+			WHERE userid = ?
 		`;
 
-		pool.query(findByIDQuery, email, (err, result) => {
+		pool.query(findByEmailQuery, email, (err, result) => {
 			// Error querying database
 			if (err) {
 			callback (err, null);
