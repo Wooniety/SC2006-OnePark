@@ -144,8 +144,7 @@ app.get('/users/:userID', (request, response, next) => {
 	});
 }); 
 
-// Check if email already exists
-// TODO
+// Return user details based on email
 app.get('/verify/email', (request, response, next) => { 
 	let email = request.body.email;
 	
@@ -160,7 +159,10 @@ app.get('/verify/email', (request, response, next) => {
 		// No errors
 		else {
 			if (results.length > 0){
-				response.status(200).send({success: true});
+				response.status(200).send({
+					success: true,
+					userDetails: results
+				});
 				return;
 			} else{
 				response.status(401).send({success: false});
