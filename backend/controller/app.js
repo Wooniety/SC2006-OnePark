@@ -131,7 +131,7 @@ app.get('/users/:userID', (request, response, next) => {
 
 		// No errors
 		else {
-			response.status(200).send(results);
+			response.status(200).send(results[0]);
 			return;
 		};
 	});
@@ -152,8 +152,12 @@ app.get('/verify/email', (request, response, next) => {
 
 		// No errors
 		else {
-			response.status(200).send(results);
-			return;
+			if (results.length > 0){
+				response.status(200).send(`{\n"success": ${true}\n}`);
+				return;
+			} else{
+				response.status(200).send(`{\n"success": ${false}\n}`);
+			}
 		};
 	});
 }); 
