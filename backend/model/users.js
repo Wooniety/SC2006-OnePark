@@ -100,7 +100,7 @@ const users = {
 		findByEmailQuery = 
 		`
 			SELECT * FROM users
-			WHERE userid = ?
+			WHERE email = ?
 		`;
 
 		pool.query(findByEmailQuery, email, (err, result) => {
