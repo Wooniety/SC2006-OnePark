@@ -140,7 +140,7 @@ app.get('/users/:userID', (request, response, next) => {
 // Check if email already exists
 // TODO
 app.get('/verify/email', (request, response, next) => { 
-	let email = request.params.email;
+	let email = request.body.email;
 	
 	users.findByEmail(email, (err, results) => {
 		// Errors
