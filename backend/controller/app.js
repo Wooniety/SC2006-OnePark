@@ -49,7 +49,7 @@ app.post('/login/', (request, response, next) => {
 		else {
 			// No user found / incorrect password
 			if (result === null) {
-				response.status(401).send(`{\n\t"success": ${false}\n}`);
+				response.status(200).send(`{\n\t"success": ${false}\n}`);
 				return;
 			}
 
