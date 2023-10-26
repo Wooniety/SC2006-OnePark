@@ -65,7 +65,7 @@ app.post('/login/', (request, response, next) => {
 				response.status(200).send({
 					// For the benefit of the front-end login page
 					success: true,
-					userData: JSON.stringify(result),
+					userData: result,
 					status: "Successful login",
 
 					user_id: result.USERS_ID
