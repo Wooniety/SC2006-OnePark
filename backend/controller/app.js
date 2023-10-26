@@ -119,7 +119,7 @@ app.post('/users/', (request, response, next) => {
 
 // Retrieve a single user by their userid
 app.get('/users/:userID', (request, response, next) => { 
-	const userID = request.params.userID;
+	let userID = request.params.userID;
 	
 	users.findByID(userID, (err, results) => {
 		// Errors
@@ -140,13 +140,13 @@ app.get('/users/:userID', (request, response, next) => {
 // Check if email already exists
 // TODO
 app.get('/verify/email', (request, response, next) => { 
-	const email = request.params.email;
+	let email = request.params.email;
 	
 	users.findByEmail(email, (err, results) => {
 		// Errors
 		if (err) {
 			console.log(err);
-			response.status(500).send(results);
+			response.status(500).send("Internal Server Error");
 			return;
 		}
 

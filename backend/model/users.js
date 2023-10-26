@@ -96,8 +96,8 @@ const users = {
 			}; 
 		}); // End of pool.query
 	}, // End of 'findByID' function
-	findByEmail: function(email, callback) {
-		findByEmailQuery = 
+	findByeEmail: function(email, callback) {
+		findByEmailQuery =
 		`
 			SELECT * FROM users
 			WHERE email = ?
