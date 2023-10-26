@@ -49,7 +49,7 @@ app.post('/login/', (request, response, next) => {
 		else {
 			// No user found / incorrect password
 			if (result === null) {
-				response.status(200).send(`{\n\t"success": ${false}\n}`);
+				response.status(401).send(`{\n\t"success": ${false}\n}`);
 				return;
 			}
 
@@ -153,7 +153,7 @@ app.get('/verify/email', (request, response, next) => {
 		// No errors
 		else {
 			if (results.length > 0){
-				response.status(200).send(`{\n"success": ${true}\n}`);
+				response.status(401).send(`{\n"success": ${true}\n}`);
 				return;
 			} else{
 				response.status(200).send(`{\n"success": ${false}\n}`);
