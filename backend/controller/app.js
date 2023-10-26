@@ -104,14 +104,21 @@ app.post('/users/', (request, response, next) => {
 	users.insert(requestBody, (err, results) => {
 		// Errors
 		if (err) {
-			console.log(err);
-			response.status(500).send("Internal Server Error");
-			return;
+			if (err.errno == 1062){
+				response.status(422).send({success: false});
+			} else{
+				console.log(err);
+				response.status(500).send("Internal Server Error");
+				return;
+			}
 		}
 
 		// No errors
 		else {
-			response.status(201).send({userID: results});
+			response.status(201).send({
+				success: true,
+				userID: results
+			});
 			return;
 		};
 	});
