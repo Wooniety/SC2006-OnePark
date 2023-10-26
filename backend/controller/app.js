@@ -161,7 +161,7 @@ app.get('/verify/email', (request, response, next) => {
 			if (results.length > 0){
 				response.status(200).send({
 					success: true,
-					userDetails: results
+					userDetails: results[0]
 				});
 				return;
 			} else{
