@@ -2,7 +2,6 @@ import React,{useState} from 'react'
 import { StyleSheet, Text, ScrollView,View,StatusBar,Image,TextInput, TouchableOpacity } from 'react-native'
 import {Colors} from '../../src/constants'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import Buttons from '../components/OnboardingButton'
 import Loader from '../components/Loader';
 import SignUpButton from '../components/SignUpButton'
 
@@ -34,24 +33,24 @@ const Login = ({navigation}) => {
             <Loader visible={loading} />
             <StatusBar barStyle="dark-content" backgroundColor="#fff" />
             {/* login form section */}
-            <View style={{flexDirection:'column',backgroundColor:'#fff',paddingTop:50,paddingHorizontal:'3%'}} >
-                    <Text style={{color: Colors.black, fontSize: 35, fontWeight: 'bold'}}>Login</Text>
+            <View style={{flexDirection:'column',backgroundColor: Colors.white, paddingTop:50, paddingHorizontal:20}} >
+                    <Text style={{color: Colors.black, fontSize: 40, fontWeight: 'bold'}}>Login</Text>
                     <Text style={{color: Colors.grey, fontSize: 18, marginVertical: 10}}>Enter Your Details to Login</Text>
 
                 <View style={{flexDirection:'column',paddingTop:50}} >
                     <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:Colors.light_grey,width:'95%',borderRadius:10,height:60,paddingLeft:20}} >
                         <Icon name="envelope-o" size={22} color="#818181" />
-                        <TextInput onChangeText={(text)=>{setformData((prevState)=>({...prevState,email:text}))}} style={styles.input} placeholder="Enter Email" placeholderTextColor="#818181" />
+                        <TextInput onChangeText={(text)=>{setformData((prevState)=>({...prevState,email:text}))}} style={styles.input} placeholder="Email" placeholderTextColor="#818181" />
 
                     </View>
 
                     <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:Colors.light_grey,width:'95%',borderRadius:10,height:60,paddingLeft:20,marginTop:20}} >
                         <Icon name="lock" size={22} color="#818181" />
-                        <TextInput onChangeText={(text)=>{setformData((prevState)=>({...prevState,password:text}))}} style={styles.input} placeholder="Enter Password" secureTextEntry={true} placeholderTextColor="#818181" />
+                        <TextInput onChangeText={(text)=>{setformData((prevState)=>({...prevState,password:text}))}} style={styles.input} placeholder="Password" secureTextEntry={true} placeholderTextColor="#818181" />
                     </View>
 
                     <View style={{width:'100%',marginBottom:10}} >
-                        <TouchableOpacity onPress={()=>console.log("Forgot Password")} style={styles.forgot_pw} >  
+                        <TouchableOpacity onPress={()=>navigation.navigate("ForgotPassword")} style={styles.forgot_pw} >  
                             <Text style={{fontSize:15, color:Colors.darker_grey,alignSelf:'flex-end',paddingTop:10, textAlign:'right'}} >Forgot Password?</Text>
                         </TouchableOpacity>    
                     </View>

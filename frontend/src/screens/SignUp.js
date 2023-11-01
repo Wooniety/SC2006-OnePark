@@ -13,7 +13,7 @@ import {
 	englishDataset,
 	englishRecommendedTransformers,
 } from 'obscenity';
-import {Colors} from '../../src/constants'
+import {Colors} from '../constants'
 import Input from '../components/Input';
 import SignUpButton from '../components/SignUpButton'
 import Loader from '../components/Loader';
