@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {Splash, Onboarding, Login, SignUp, ForgotPassword} from './src/screens';
+import {Splash, Onboarding, Login, SignUp, ForgotPassword, Menu, ParkingLotsMap, FaultReporting} from './src/screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +15,9 @@ const App = ()=>{
               <Stack.Screen name="Onboarding" component={Onboarding} />
               <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="SignUp" component={SignUp} />
+              <Stack.Screen name="Menu" component={Menu} />
+              <Stack.Screen name="ParkingLotsMap" component={ParkingLotsMap} />
+              <Stack.Screen name="FaultReporting" component={FaultReporting} options={{Title: 'Fault Reporting'}}/>
               <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
             </Stack.Navigator>
           </NavigationContainer>
