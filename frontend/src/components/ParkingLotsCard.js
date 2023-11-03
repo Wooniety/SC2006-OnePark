@@ -18,15 +18,15 @@ export class ParkingLotsCard extends Component {
             justifyContent: "center",
             alignItems: "center",
             // padding: 20,
-            height: 130,
+            height: 120,
             width: "45%",
             marginHorizontal: 5,
             marginTop: 20,
             borderColor: "#d9d9d9",
             // borderWidth: 1,
-            borderRadius: 10,
+            borderRadius: 15,
             // backgroundColor:"#22558519"
-            backgroundColor: "#fff",
+            backgroundColor: "#FFF",
             shadowColor: "#000",
             shadowColor: "#000",
             shadowOffset: {

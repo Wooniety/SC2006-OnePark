@@ -4,5 +4,7 @@ export {default as Onboarding} from './Onboarding';
 export {default as SignUp} from './SignUp';
 export {default as ForgotPassword} from './ForgotPassword';
 export {default as Menu} from './Menu';
-export {default as ParkingLotsMap} from './ParkingLotsMap';
+export {default as Map} from './Map';
 export {default as FaultReporting} from './FaultReporting';
+export {default as CarparkDetails} from './CarparkDetails';
+export {default as Search} from './Search';

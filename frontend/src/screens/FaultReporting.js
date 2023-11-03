@@ -15,14 +15,17 @@ import {
   ActivityIndicator,
   Alert,
   ToastAndroid,
+  Image,
+  ScrollView,
 } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
-import Colors from "../constants/Colors";
+import colors from "../constants/Colors";
 import style from "../constants/Styles";
 import { Ionicons, Foundation } from "@expo/vector-icons";
 
 
-export class FaultReporting extends Component {
+const FaultReporting = ({navigation}) => {
 //   static contextType = GlobalContext;
 
 //   state = {
@@ -146,150 +149,174 @@ export class FaultReporting extends Component {
   //   />
   // );
 
-  render() {
+  
     return (
       <View style={styles.container}>
+        
+            <View style ={styles.header}>
+                <View style = {styles.icon1}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Menu")} >
+                        <Ionicons
+                        name ="arrow-back"
+                        color = {colors.white}
+                        size = {30}
+                        />
+                    </TouchableOpacity>
+        
+
+                </View>
+            </View>
+
+            <ScrollView bounces = {false}>
+
+              <View style ={styles.home}>
+                  <Text style = {styles.text1}>Fault Reporting</Text>
+                  <View style ={styles.view1}>
+                      <View  style ={styles.view8}>
+                          <Text style ={styles.text2}>Notice issues wth a carpark? Let us know!</Text>
+                      </View>
+                  </View>
+              </View>            
 
 
-
-        <View
-          style={{
-            alignItems: "center",
-            marginTop: 10,
-          }}
-        >
-          <View style={style.style.input }>
-            <TextInput
-              maxLength={50}
-              onChange={(text) => this.onChange("parkingLotName", text)}
-              style={{
-                width: "85%",
-            
-              }}
-              placeholder="Parking Lot Name"
-              require
-            ></TextInput>
-          </View>
-
-
-    
-          <View style={style.style.input}>
-          
-            <TextInput
-              keyboardType="number-pad"
-              maxLength={20}
-              onChange={(text) => this.onChange("parkingLotCode", text)}
-              style={{
-                width: "85%",
-           
-              }}
-              placeholder="Parking Lot Code"
-              require
-            ></TextInput>
-          </View>
-    
-
-          <View style={style.style.input}>
-            <TextInput
-            
-              maxLength={20}
-              onChange={(text) => this.onChange("Description of Fault", text)}
-              style={{
-                width: "85%",
-                // ,fontSize:10
-              }}
-              placeholder="Description of Fault"
-              require
-            ></TextInput>
-          </View>
-          <View
-            // style={[
-            //   style.style.input,
-            //   this.state.partotalSpotError
-            //     ? { borderColor: "red", borderWidth: 1 }
-            //     : {},
-            // ]}
-          >
-          </View>
+         
 
           <View
             style={{
-              flexDirection: "row",
-              //   backgroundColor: "#666",
-              justifyContent: "center",
-              width: "80%",
-              // backgroundColor:"red",
-              padding: 0,
-              marginBottom: 0,
+              alignItems: "center",
+              marginTop: 10,
             }}
           >
-        
-            <TouchableOpacity
-              activeOpacity={0.7}
-              // onPress={() => {
-              //   this.handleSelectLocation();
-              // }}
+            <View style={style.style.input }>
+              <TextInput
+                maxLength={50}
+                onChange={(text) => this.onChange("parkingLotName", text)}
+                style={{
+                  width: "85%",
+              
+                }}
+                placeholder="Parking Lot Name"
+                require
+              ></TextInput>
+            </View>
+
+
+      
+            <View style={style.style.input}>
+            
+              <TextInput
+                keyboardType="number-pad"
+                maxLength={20}
+                onChange={(text) => this.onChange("parkingLotCode", text)}
+                style={{
+                  width: "85%",
+            
+                }}
+                placeholder="Parking Lot Code"
+                require
+              ></TextInput>
+            </View>
+      
+
+            <View style={style.style.input}>
+              <TextInput
+              
+                maxLength={20}
+                onChange={(text) => this.onChange("Description of Fault", text)}
+                style={{
+                  width: "85%",
+                  // ,fontSize:10
+                }}
+                placeholder="Description of Fault"
+                require
+              ></TextInput>
+            </View>
+            <View
+              // style={[
+              //   style.style.input,
+              //   this.state.partotalSpotError
+              //     ? { borderColor: "red", borderWidth: 1 }
+              //     : {},
+              // ]}
+            >
+            </View>
+
+            <View
               style={{
-                alignItems: "left",
-                justifyContent: "center",
-                width: "100%",
-                marginVertical: 20,
-                borderWidth: 0.1,
-                borderColor: Colors.primary,
-                padding: 10,
-                //   marginTop: 20,
-                marginBottom: 0,
-                borderRadius: 10,
                 flexDirection: "row",
-                backgroundColor: "#fff",
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.22,
-                shadowRadius: 2.22,
-                elevation: 3,
+                //   backgroundColor: "#666",
+                justifyContent: "center",
+                width: "80%",
+                // backgroundColor:"red",
+                padding: 0,
+                marginBottom: 0,
               }}
             >
-              <View>
-                <Ionicons
-            name="camera"
-            size={20}
-            color="black"
-          />
-              </View>
-            </TouchableOpacity>
-          </View>
-  
-
-
-     
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => {
-                this.handleSignIn();
-              }}
-              style={{
-                alignItems: "center",
-                width: "100%",
-                marginVertical: 30,
-              }}
-            >
-              <View style={style.style.button}>
-                <Text style={{ color: "white" }}>Add</Text>
-              </View>
-            </TouchableOpacity>
-    
-            <ActivityIndicator
-              style={{ height: 50, marginVertical: 30 }}
-              size="large"
-              color={Colors.primary}
+          
+              <TouchableOpacity
+                activeOpacity={0.7}
+                // onPress={() => {
+                //   this.handleSelectLocation();
+                // }}
+                style={{
+                  alignItems: "left",
+                  justifyContent: "center",
+                  width: "100%",
+                  marginVertical: 20,
+                  borderWidth: 0.1,
+                  borderColor: colors.primary,
+                  padding: 10,
+                  //   marginTop: 20,
+                  marginBottom: 0,
+                  borderRadius: 10,
+                  flexDirection: "row",
+                  backgroundColor: "#fff",
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.22,
+                  shadowRadius: 2.22,
+                  elevation: 3,
+                }}
+              >
+                <View>
+                  <Ionicons
+              name="camera"
+              size={20}
+              color="black"
             />
-        </View>
+                </View>
+              </TouchableOpacity>
+            </View>
+    
+
+
+      
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  this.handleSignIn();
+                }}
+                style={{
+                  alignItems: "center",
+                  width: "100%",
+                  marginVertical: 30
+                }}
+              >
+                <View style={style.style.button}>
+                  <Text style={{ color: "white" }}>Submit</Text>
+                </View>
+              </TouchableOpacity>
+
+
+          </View>
+
+             </ScrollView>
       </View>
     );
-  }
+  
 }
 
 export default FaultReporting;
@@ -298,4 +325,51 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+
+  icon1:  {
+  marginLeft:10,
+  marginTop:5
+  },
+
+  header:{
+  backgroundColor:colors.clearBlue,
+  alignItems:"flex-start",
+  height:50,
+  borderTopLeftRadius: 20,
+  borderTopRightRadius: 20
+    
+  }, 
+
+    text1:{
+  color:colors.white,
+  fontSize:22,
+  paddingBottom:5,
+  paddingTop:20
+
+  },
+
+  text2:{
+    color:colors.white,
+    fontSize:16,
+    paddingBottom: 20
+  },
+
+  view1:{
+    flexDirection:"row",
+    flex:1,
+    paddingTop:30
+  },
+
+  view8: {flex:4,
+      marginTop:-25
+  } ,
+
+      home:{
+  backgroundColor:colors.clearBlue,
+  paddingLeft:20,
+  borderBottomLeftRadius: 20,
+  borderBottomRightRadius: 20
+  }
+
+
 });
