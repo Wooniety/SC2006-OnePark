@@ -5,26 +5,22 @@ import { Button, IconButton } from "react-native-paper";
 import BottomDrawer from "rn-bottom-sheet";
 import * as Location from "expo-location";
 import UserMarker from "../assets/Images/current_location.png";
-import CPMarker from "../assets/Images/parking_icon.png";
+import CPMarker from "../assets/Images/carparks_icon.png";
 
 import { getCurrentLocation } from "../controllers/LocHandler";
 import DisplayMapStyles from "../constants/DisplayCarparkStyles";
-
 
 import {
   defaultUserLat,
   defaultUserLong,
   defaultLatDelta,
-  defaultLongDelta
+  defaultLongDelta,
 } from "../constants/DefaultMapVar";
 
 const width = Dimensions.get("screen").width;
 const height = Dimensions.get("screen").height;
 
-
-export default class Map extends Component  {
-
-  
+export default class Map extends Component {
   constructor() {
     super();
 
@@ -36,27 +32,24 @@ export default class Map extends Component  {
       latDelta: defaultLatDelta,
       longDelta: defaultLongDelta,
       permissionGranted: false,
-      coordinatesList: []
+      coordinatesList: [],
     };
 
     this.getCurrentLocation = getCurrentLocation.bind(this);
   }
 
-
   componentWillMount() {
     this.requestCurrentLocation();
     this.state.coordinatesList = [
-                {latitude: 1.316265,longitude: 103.682655},
-                {latitude: 1.346237,longitude: 103.182355},
-                {latitude: 1.346237,longitude: 103.682655}
-            ]
+      { latitude: 1.316265, longitude: 103.682655 },
+      { latitude: 1.346237, longitude: 103.182355 },
+      { latitude: 1.346237, longitude: 103.682655 },
+    ];
   }
-
 
   componentDidMount() {
     this.watchUserLocation();
   }
-
 
   componentWillUnmount() {
     console.log("Unsubscribing watch location now...");
@@ -64,7 +57,7 @@ export default class Map extends Component  {
 
   requestCurrentLocation() {
     this.getCurrentLocation()
-      .then(userLocation => {
+      .then((userLocation) => {
         if (!userLocation) {
           console.log("Permission is not granted!");
           this.displayDenyLocationScreen();
@@ -72,16 +65,16 @@ export default class Map extends Component  {
         }
         this.displayCurrentLocation(userLocation);
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }
 
   displayCurrentLocation(userLocation) {
     const screenLongDelta = this.state.latDelta * (width / height);
     this.setState({
-      userLat: 1.346237,//userLocation.coords.latitude,
+      userLat: 1.346237, //userLocation.coords.latitude,
       userLong: 103.682655, //userLocation.coords.longitude,
       longDelta: screenLongDelta,
-      permissionGranted: true
+      permissionGranted: true,
     });
   }
 
@@ -90,21 +83,19 @@ export default class Map extends Component  {
   }
 
   watchUserLocation() {
-   
     this.watchId = Location.watchPositionAsync(
       {
-       
         accuracy: Location.Accuracy.Balanced,
-     
+
         timeInterval: 1000,
-        distanceInterval: 0
+        distanceInterval: 0,
       },
-      location => {
+      (location) => {
         this.setState(
           {
             //userLat: location.coords.latitude,
             userLat: 1.346237,
-            userLong: 103.682655
+            userLong: 103.682655,
             //userLong: ocation.coords.longitude
           },
           () =>
@@ -113,16 +104,10 @@ export default class Map extends Component  {
             )
         );
       }
-    ).catch(err => console.log(err));
+    ).catch((err) => console.log(err));
   }
 
-
-
-
-
-  
   render() {
-  
     return (
       <View style={styles.container}>
         {this.state.permissionGranted ? (
@@ -133,13 +118,13 @@ export default class Map extends Component  {
                 latitude: this.state.userLat,
                 longitude: this.state.userLong,
                 latitudeDelta: this.state.latDelta,
-                longitudeDelta: this.state.longDelta
+                longitudeDelta: this.state.longDelta,
               }}
             >
               <Marker
                 coordinate={{
                   latitude: this.state.userLat,
-                  longitude: this.state.userLong
+                  longitude: this.state.userLong,
                 }}
                 title={"You"}
                 description={`${this.state.userLat}, ${this.state.userLong}`}
@@ -147,24 +132,26 @@ export default class Map extends Component  {
               >
                 <Image source={UserMarker} />
               </Marker>
-              
-                {this.state.coordinatesList.map((coordinates,index) => (
-              <Marker
-                coordinate={coordinates}
-                title={"You"}
-                description={`${this.state.userLat}, ${this.state.userLong}`}
-                pinColor={"red"}
-                onPress={() => this.props.navigation.navigate("CarparkDetails", {data: index})} // Linking.openURL('http://www.google.com/maps/place/1.346249,+103.682673').catch((err) => console.errot('An error occurred: ',err))
-              >
-                <Image source={CPMarker} />
-              </Marker>))}
 
-
+              {this.state.coordinatesList.map((coordinates, index) => (
+                <Marker
+                  coordinate={coordinates}
+                  title={"You"}
+                  description={`${this.state.userLat}, ${this.state.userLong}`}
+                  pinColor={"red"}
+                  onPress={() =>
+                    this.props.navigation.navigate("CarparkDetails", {
+                      data: index,
+                    })
+                  } // Linking.openURL('http://www.google.com/maps/place/1.346249,+103.682673').catch((err) => console.errot('An error occurred: ',err))
+                >
+                  <Image source={CPMarker} />
+                </Marker>
+              ))}
             </MapView>
-  
           </View>
         ) : (
-          <Text>Loading...</Text> 
+          <Text>Loading...</Text>
         )}
       </View>
     );

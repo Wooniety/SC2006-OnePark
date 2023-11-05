@@ -16,26 +16,27 @@ const Login = ({navigation}) => {
 
     // placeholder login function
     const login = () => {
-        console.log(JSON.stringify(formData))
-        fetch('http://thebigsad.southeastasia.cloudapp.azure.com:3000/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-          })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              console.log('Login successful');
-            //   navigation.navigate("HomePage") OR WHATEVER PAGE THE HOME PAGE IS
-            } else {
-              Alert.alert('Error', 'Incorrect email or password!');
-          }
-          })
-          .catch(error => {
-            console.error('Error:', error);          
-          });
+        // console.log(JSON.stringify(formData))
+        // fetch('http://thebigsad.southeastasia.cloudapp.azure.com:3000/login', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(formData),
+        //   })
+        //   .then(response => response.json())
+        //   .then(data => {
+        //     if (data.success) {
+        //       console.log('Login successful');
+        //     //   navigation.navigate("HomePage") OR WHATEVER PAGE THE HOME PAGE IS
+        //     } else {
+        //       Alert.alert('Error', 'Incorrect email or password!');
+        //   }
+        //   })
+        //   .catch(error => {
+        //     console.error('Error:', error);          
+        //   });
+        navigation.navigate("Menu")
     };
 
     return (

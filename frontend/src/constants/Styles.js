@@ -31,7 +31,7 @@ export default {
       // backgroundColor:"#e8e8e8"
     },
     button:{
-        backgroundColor: Colors.primary,
+        backgroundColor: Colors.clearBlue,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 10,
