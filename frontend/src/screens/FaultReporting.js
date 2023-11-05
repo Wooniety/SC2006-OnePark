@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 
 import {
   StyleSheet,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Button,
+  Image
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -143,9 +144,17 @@ export class FaultReporting extends Component {
   constructor() {
     super();
     this.state = {
-      show: false,
+      showModal: false,
+      carparkName: "",
+      carparkCode: "",
+      description: "",
     };
+
+    
   }
+
+ 
+
 
   render() {
     return (
@@ -180,25 +189,14 @@ export class FaultReporting extends Component {
           >
             <View style={style.style.input}>
               <TextInput
-                maxLength={50}
-                onChange={(text) => this.onChange("parkingLotName", text)}
-                style={{
-                  width: "85%",
-                }}
-                placeholder="Parking Lot Name"
-                require
-              ></TextInput>
-            </View>
-
-            <View style={style.style.input}>
-              <TextInput
-                keyboardType="number-pad"
                 maxLength={20}
-                onChange={(text) => this.onChange("parkingLotCode", text)}
+                placeholder="Enter Carpark Name"
+                onChangeText={(text) => {
+                  this.setState({ carparkName: text });
+                }}
                 style={{
                   width: "85%",
                 }}
-                placeholder="Parking Lot Code"
                 require
               ></TextInput>
             </View>
@@ -206,23 +204,30 @@ export class FaultReporting extends Component {
             <View style={style.style.input}>
               <TextInput
                 maxLength={20}
-                onChange={(text) => this.onChange("Description of Fault", text)}
+                placeholder="Enter Carpark Code"
+                onChangeText={(text) => {
+                  this.setState({ carparkCode: text });
+                }}
                 style={{
                   width: "85%",
-                  // ,fontSize:10
                 }}
+                require
+              ></TextInput>
+            </View>
+
+            <View style={style.style.input}>
+              <TextInput
+                maxLength={20}
                 placeholder="Description of Fault"
+                onChangeText={(text) => {
+                  this.setState({ description: text });
+                }}
+                style={{
+                  width: "85%",
+                }}
                 require
               ></TextInput>
             </View>
-            <View
-            // style={[
-            //   style.style.input,
-            //   this.state.partotalSpotError
-            //     ? { borderColor: "red", borderWidth: 1 }
-            //     : {},
-            // ]}
-            ></View>
 
             <View
               style={{
@@ -272,7 +277,7 @@ export class FaultReporting extends Component {
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => {
-                this.setState({ show: true });
+                this.setState({ showModal: true });
               }}
               style={{
                 alignItems: "center",
@@ -286,22 +291,37 @@ export class FaultReporting extends Component {
             </TouchableOpacity>
           </View>
 
-          <Modal transparent={true} visible={this.state.show}>
+          <Modal transparent={true} visible={this.state.showModal}>
             <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
               <View
                 style={{
                   backgroundColor: "#ffffff",
-                  margin: 50,
+                  margin: 40,
                   padding: 40,
-                  borderRadius: 10,
+                  borderRadius: 20,
                   flex: 1,
                 }}
               >
-                <Text style={{ fontSize: 50 }}>Modal Text</Text>
+                <Image
+                  style={{height: 40, width: 40}}
+                  source={require("../assets/Images/success_icon.png")}
+                />
+                <Text style={{ fontSize: 30 }}>Successfully Submitted</Text>
+                <Text style={{ fontSize: 18, paddingTop: 10 }}>Summary of Report:</Text>
+                <Text style={{ fontSize: 15, paddingTop: 15 }}>
+                  Carpark Name: {this.state.carparkName}
+                </Text>
+                <Text style={{ fontSize: 15, paddingTop: 5 }}>
+                  Carpark Code: {this.state.carparkCode}
+                </Text>
+                <Text style={{ fontSize: 15, paddingTop: 5, paddingBottom: 80}}>
+                  Description of Fault: {this.state.description}
+                </Text>
+
                 <Button
                   title="close"
                   onPress={() => {
-                    this.setState({ show: false });
+                    this.setState({ showModal: false });
                   }}
                 />
               </View>

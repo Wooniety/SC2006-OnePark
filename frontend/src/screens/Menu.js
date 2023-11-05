@@ -6,6 +6,7 @@ import { Ionicons, Foundation } from "@expo/vector-icons";
 import ParkingSpotsCard from "../components/ParkingLotsCard";
 import FaultReportingCard from "../components/FaultReportingCard";
 import SearchCarparksCard from "../components/SearchCarparksCard";
+import LogoutCard from "../components/LogoutCard";
 import { NavigationContainer } from "@react-navigation/native";
 import { Drawer } from "react-native-paper";
 import colors from "../constants/Colors";
@@ -37,22 +38,22 @@ export class Menu extends Component {
               justifyContent: "space-between",
               marginHorizontal: 20,
               flexWrap: "wrap-reverse",
-              marginTop: 20,
+              marginTop: 50,
             }}
           >
-            <SearchCarparksCard
-              onClick={() => this.props.navigation.navigate("Search")}
-            />
             <FaultReportingCard
               onClick={() => this.props.navigation.navigate("FaultReporting")}
             />
+
+            <LogoutCard onClick={() => this.props.navigation.navigate("Login")} />
+
             <ParkingSpotsCard
               onClick={() => this.props.navigation.navigate("Map")}
             />
 
-            {/* <Settings
-            onClick={() => this.props.navigation.navigate("ParkingLotsMap")}
-          />  */}
+            <SearchCarparksCard
+              onClick={() => this.props.navigation.navigate("Search")}
+            />
           </View>
         </ScrollView>
       </View>

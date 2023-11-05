@@ -10,5 +10,6 @@ export default Colors ={
     red: 'red',
     darker_grey: '#818181',
     light_grey: '#EDEDED',
-    clearBlue: '#286ef0'
+    clearBlue: '#286ef0',
+     
 }
