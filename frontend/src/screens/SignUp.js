@@ -20,10 +20,10 @@ import Loader from '../components/Loader';
 
 const SignUp = ({navigation}) => {
   const [inputs, setInputs] = React.useState({
+    name: '',
     email: '',
-    fullname: '',
-    phone: '',
     password: '',
+    phonenum: '',
   });
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
@@ -53,19 +53,18 @@ const SignUp = ({navigation}) => {
       isValid = false;
     }
 
-    // To do: implement whether name already exists
-    if (!inputs.fullname) {
-      handleError('Please input full name!', 'fullname');
+    if (!inputs.name) {
+      handleError('Please input full name!', 'name');
       isValid = false;
-    } else if (profanity_Matcher.hasMatch(inputs.fullname)) {
-      handleError('Please mind your language!', 'fullname');
+    } else if (profanity_Matcher.hasMatch(inputs.name)) {
+      handleError('Please mind your language!', 'name');
       isValid = false;
     }
 
-    if (!inputs.phone) {
+    if (!inputs.phonenum) {
       handleError('Please input phone number!', 'phone');
       isValid = false;
-    } else if (!containsOnlyNumbers(inputs.phone)) {
+    } else if (!containsOnlyNumbers(inputs.phonenum)) {
       handleError('Invalid phone number!', 'phone');
       isValid = false;
     }
@@ -89,18 +88,28 @@ const SignUp = ({navigation}) => {
     }
   };
 
-  // placeholder register function
   const register = () => {
-    setLoading(true);
-    setTimeout(() => {
-      try {
-        setLoading(false);
-        AsyncStorage.setItem('userData', JSON.stringify(inputs));
-        navigation.navigate('LoginScreen');
-      } catch (error) {
-        Alert.alert('Error', 'Something went wrong');
+    console.log(JSON.stringify(inputs))
+    fetch('http://thebigsad.southeastasia.cloudapp.azure.com:3000/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputs),
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          console.log('Registration successful');
+          Alert.alert('Success', 'Registration Complete! Please login again.');
+          navigation.navigate("Login")
+        } else {
+          Alert.alert('Error', 'Email is already used!');
       }
-    }, 3000);
+      })
+      .catch(error => {
+        console.error('Error:', error);          
+      });
   };
 
   const handleOnchange = (text, input) => {
@@ -122,6 +131,16 @@ const SignUp = ({navigation}) => {
           Enter Your Details to Register
         </Text>
         <View style={{marginVertical: 20}}>
+
+        <Input
+            onChangeText={text => handleOnchange(text, 'name')}
+            onFocus={() => handleError(null, 'name')}
+            iconName="account-outline"
+            label="Full Name"
+            placeholder="Enter your full name"
+            error={errors.name}
+          />
+
           <Input
             onChangeText={text => handleOnchange(text, 'email')}
             onFocus={() => handleError(null, 'email')}
@@ -132,24 +151,6 @@ const SignUp = ({navigation}) => {
           />
 
           <Input
-            onChangeText={text => handleOnchange(text, 'fullname')}
-            onFocus={() => handleError(null, 'fullname')}
-            iconName="account-outline"
-            label="Full Name"
-            placeholder="Enter your full name"
-            error={errors.fullname}
-          />
-
-          <Input
-            keyboardType="numeric"
-            onChangeText={text => handleOnchange(text, 'phone')}
-            onFocus={() => handleError(null, 'phone')}
-            iconName="phone-outline"
-            label="Phone Number"
-            placeholder="Enter your phone no"
-            error={errors.phone}
-          />
-          <Input
             onChangeText={text => handleOnchange(text, 'password')}
             onFocus={() => handleError(null, 'password')}
             iconName="lock-outline"
@@ -157,7 +158,18 @@ const SignUp = ({navigation}) => {
             placeholder="Enter your password"
             error={errors.password}
             password
+          />      
+
+          <Input
+            keyboardType="numeric"
+            onChangeText={text => handleOnchange(text, 'phonenum')}
+            onFocus={() => handleError(null, 'phonenum')}
+            iconName="phone-outline"
+            label="Phone Number"
+            placeholder="Enter your phone no"
+            error={errors.phonenum}
           />
+
           <SignUpButton title="Register" onPress={validate} />
 
           <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'flex-end',backgroundColor:'#fff',marginBottom:40}} >

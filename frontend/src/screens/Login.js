@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { StyleSheet, Text, ScrollView,View,StatusBar,Image,TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, ScrollView,View,StatusBar,Image,TextInput, TouchableOpacity, Alert } from 'react-native'
 import {Colors} from '../../src/constants'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Loader from '../components/Loader';
@@ -16,16 +16,27 @@ const Login = ({navigation}) => {
 
     // placeholder login function
     const login = () => {
-        setLoading(true);
-        setTimeout(() => {
-        try {
-            setLoading(false);
-            AsyncStorage.setItem('userData', JSON.stringify(inputs));
-            navigation.navigate('LoginScreen');
-        } catch (error) {
-            Alert.alert('Error', 'Something went wrong');
-        }
-        }, 3000);
+        // console.log(JSON.stringify(formData))
+        // fetch('http://thebigsad.southeastasia.cloudapp.azure.com:3000/login', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(formData),
+        //   })
+        //   .then(response => response.json())
+        //   .then(data => {
+        //     if (data.success) {
+        //       console.log('Login successful');
+        //     //   navigation.navigate("HomePage") OR WHATEVER PAGE THE HOME PAGE IS
+        //     } else {
+        //       Alert.alert('Error', 'Incorrect email or password!');
+        //   }
+        //   })
+        //   .catch(error => {
+        //     console.error('Error:', error);          
+        //   });
+        navigation.navigate("Menu")
     };
 
     return (
