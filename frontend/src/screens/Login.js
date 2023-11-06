@@ -27,8 +27,8 @@ const Login = ({navigation}) => {
         //   .then(response => response.json())
         //   .then(data => {
         //     if (data.success) {
-        //       console.log('Login successful');
-        //     //   navigation.navigate("HomePage") OR WHATEVER PAGE THE HOME PAGE IS
+        //     //   console.log('Login successful');
+        //       navigation.navigate("Menu") 
         //     } else {
         //       Alert.alert('Error', 'Incorrect email or password!');
         //   }
@@ -37,6 +37,7 @@ const Login = ({navigation}) => {
         //     console.error('Error:', error);          
         //   });
         navigation.navigate("Menu")
+    
     };
 
     return (

@@ -16,7 +16,11 @@ import {
 
 import { Ionicons, Foundation } from "@expo/vector-icons";
 
-export class LogoutCard extends Component {
+export class VoiceRecCard extends Component {
+
+  
+
+
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => this.props.onClick()} style={{}}>
@@ -45,15 +49,15 @@ export class LogoutCard extends Component {
             elevation: 7,
           }}
         >
-          <Ionicons name="log-out" size={50} color="red" />
+          <Ionicons name="mic-outline" size={50} color="black" />
           <Text
             style={{
               fontSize: 13,
               marginTop: 0,
-              color: "red",
+              color: "black",
             }}
           >
-            Logout
+            Voice Recognition
           </Text>
         </View>
       </TouchableWithoutFeedback>
@@ -61,4 +65,4 @@ export class LogoutCard extends Component {
   }
 }
 
-export default LogoutCard;
+export default VoiceRecCard;

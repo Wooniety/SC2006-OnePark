@@ -8,3 +8,7 @@ export {default as Map} from './Map';
 export {default as FaultReporting} from './FaultReporting';
 export {default as CarparkDetails} from './CarparkDetails';
 export {default as Search} from './Search';
+export { default as SearchNearby } from "./SearchNearby";
+export { default as SearchPrice } from "./SearchPrice";
+export { default as SearchSeasonal } from "./SearchSeasonal";
+export { default as SearchSaved } from "./SearchSaved";

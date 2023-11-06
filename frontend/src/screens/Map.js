@@ -9,6 +9,9 @@ import CPMarker from "../assets/Images/carparks_icon.png";
 
 import { getCurrentLocation } from "../controllers/LocHandler";
 import DisplayMapStyles from "../constants/DisplayCarparkStyles";
+// import axios from axios;
+import data from "../assets/carpark.json";
+
 
 import {
   defaultUserLat,
@@ -40,11 +43,8 @@ export default class Map extends Component {
 
   componentWillMount() {
     this.requestCurrentLocation();
-    this.state.coordinatesList = [
-      { latitude: 1.316265, longitude: 103.682655 },
-      { latitude: 1.346237, longitude: 103.182355 },
-      { latitude: 1.346237, longitude: 103.682655 },
-    ];
+    this.state.coordinatesList = data;
+  
   }
 
   componentDidMount() {
@@ -98,10 +98,6 @@ export default class Map extends Component {
             userLong: 103.682655,
             //userLong: ocation.coords.longitude
           },
-          () =>
-            console.log(
-              `Lat: ${this.state.userLat} Long: ${this.state.userLong}`
-            )
         );
       }
     ).catch((err) => console.log(err));
@@ -135,13 +131,16 @@ export default class Map extends Component {
 
               {this.state.coordinatesList.map((coordinates, index) => (
                 <Marker
-                  coordinate={coordinates}
+                  coordinate={{
+                    latitude: coordinates.latitude,
+                    longitude: coordinates.longitude,
+                  }}
                   title={"You"}
                   description={`${this.state.userLat}, ${this.state.userLong}`}
                   pinColor={"red"}
                   onPress={() =>
                     this.props.navigation.navigate("CarparkDetails", {
-                      data: index,
+                      data: coordinates,
                     })
                   } // Linking.openURL('http://www.google.com/maps/place/1.346249,+103.682673').catch((err) => console.errot('An error occurred: ',err))
                 >

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { LineChart } from "react-native-chart-kit";
 
 import {
   StyleSheet,
@@ -151,8 +152,70 @@ export class CarparkDetails extends Component {
   //   this.props.route.params.data
   // }
 
+  state = {
+    linegraph: {
+      labels: [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+      ],
+      datasets: [
+        {
+          label: "# of Lots Taken",
+          data: [
+            0.6962292609351433, 0.7081447963800905, 0.7147058823529412,
+            0.7110859728506788, 0.7054298642533937, 0.7013574660633484,
+            0.6938914027149321, 0.6699095022624434, 0.6076923076923076,
+            0.5380090497737556, 0.4755656108597285, 0.36855203619909505,
+            0.2520361990950226, 0.251131221719457, 0.3420814479638009,
+            0.4656108597285068, 0.5289592760180996, 0.5481900452488688,
+            0.5134238310708898, 0.468552036199095, 0.4984162895927602,
+            0.5920814479638009, 0.6410256410256411, 0.6739819004524887,
+          ],
+        },
+      ],
+    },
+    data: {},
+  };
+
+  fetchData = async () => {
+    try {
+      const response = await fetch(`http://thebigsad.southeastasia.cloudapp.azure.com:3000/carparks/carpark-availability/A0004`);
+      const jsonData = await response.json();
+      this.setState({data: jsonData});
+      console.log(this.state.data);
+    } catch (err){
+      console.log(err);
+    }
+  }
+
+  componentDidMount = () => {
+    this.fetchData();
+  }
+
   render() {
-    // let lotInfo = this.state.data;
+    let lotInfo = this.state.data;
     // let currentDate = new Date(this.state.date);
 
     return (
@@ -197,20 +260,48 @@ export class CarparkDetails extends Component {
             >
               Parking Lot Details
             </Text>
-            <Text style={{ fontSize: 15, paddingTop: 10 }}>Name : </Text>
-            <Text style={{ fontSize: 15, paddingTop: 3 }}>Address :</Text>
-            <Text style={{ fontSize: 15, paddingTop: 3 }}>Total Spot : </Text>
-            <Text style={{ fontSize: 15, paddingTop: 3 }}>
-              Occupied Spot :{" "}
+            <Text style={{ fontSize: 15, paddingTop: 10 }}>
+              Name : {this.props.route.params.data.car_park_no}
             </Text>
-            <Text style={{ fontSize: 15, paddingTop: 3 }}>Hourly Rate : </Text>
+            <Text style={{ fontSize: 15, paddingTop: 3 }}>
+              Address : {lotInfo.ppName}
+            </Text>
+            <Text style={{ fontSize: 15, paddingTop: 3 }}>
+              Total Spot : {lotInfo.parkCapacity}
+            </Text>
+            <Text style={{ fontSize: 15, paddingTop: 3 }}>
+              Occupied Spot : {lotInfo.carLotsAvailable}
+            </Text>
+            <Text style={{ fontSize: 15, paddingTop: 3 }}>
+              Hourly Rate : {lotInfo.weekdayRate}
+            </Text>
+            <Text style={{ fontSize: 15, paddingTop: 3, paddingBottom: 10 }}>
+              Availability (%):
+            </Text>
+
+            <LineChart
+              data={this.state.linegraph}
+              width={300}
+              height={200}
+              yAxisLabel=""
+              chartConfig={{
+                backgroundColor: "#1cc910",
+                backgroundGradientFrom: "#eff3ff",
+                backgroundGradientTo: "#efefef",
+                decimalPlaces: 2,
+                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                style: {
+                  borderRadius: 16,
+                },
+              }}
+            />
           </View>
 
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => {
               Linking.openURL(
-                "http://www.google.com/maps/place/1.346249,+103.682673"
+                `https://www.google.com/maps/dir/50+Nanyang+Ave,+Singapore+639798/${this.props.route.params.data.latitude},${this.props.route.params.data.longitude}/@1.3429842,103.6809897`
               ).catch((err) => console.errot("An error occurred: ", err));
             }}
             style={{
