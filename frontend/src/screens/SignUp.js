@@ -103,10 +103,17 @@ const SignUp = ({navigation}) => {
           console.log("here1") //for debugging
           Alert.alert('Error', 'Email is already used!');
           return null; // Return null to signal that we shouldn't attempt to parse the response further
-      }})
+        }
+        if (!response.ok) {
+          // If the response is not 2xx, throw an error with the status code
+          console.log("here2") // for debugging
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // If response is OK, parse the JSON body
+      })
       .then(data => {
         if (!data) return;
-        
+
         console.log(data)
         if (data.userID) {
           Alert.alert('Success', 'Registration Complete! Please login again.');
