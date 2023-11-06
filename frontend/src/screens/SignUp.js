@@ -62,10 +62,10 @@ const SignUp = ({navigation}) => {
     }
 
     if (!inputs.phonenum) {
-      handleError('Please input phone number!', 'phone');
+      handleError('Please input 1 number!', 'phonenum');
       isValid = false;
     } else if (!containsOnlyNumbers(inputs.phonenum)) {
-      handleError('Invalid phone number!', 'phone');
+      handleError('Invalid phone number!', 'phonenum');
       isValid = false;
     }
 
@@ -97,10 +97,25 @@ const SignUp = ({navigation}) => {
       },
       body: JSON.stringify(inputs),
       })
-      .then(response => response.json())
+      .then(response => {
+        if (response.status === 500) {
+          // Directly show an alert for 401 Unauthorized errors
+          console.log("here1") //for debugging
+          Alert.alert('Error', 'Email is already used!');
+          return null; // Return null to signal that we shouldn't attempt to parse the response further
+        }
+        if (!response.ok) {
+          // If the response is not 2xx, throw an error with the status code
+          console.log("here2") // for debugging
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // If response is OK, parse the JSON body
+      })
       .then(data => {
-        if (data.success) {
-          console.log('Registration successful');
+        if (!data) return;
+
+        console.log(data)
+        if (data.userID) {
           Alert.alert('Success', 'Registration Complete! Please login again.');
           navigation.navigate("Login")
         } else {
@@ -111,6 +126,7 @@ const SignUp = ({navigation}) => {
         console.error('Error:', error);          
       });
   };
+
 
   const handleOnchange = (text, input) => {
     setInputs(prevState => ({...prevState, [input]: text}));

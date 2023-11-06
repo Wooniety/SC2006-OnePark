@@ -1,20 +1,33 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { StyleSheet, Text, ScrollView,View,StatusBar,Image,TextInput, TouchableOpacity, Alert } from 'react-native'
 import {Colors} from '../../src/constants'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Loader from '../components/Loader';
 import SignUpButton from '../components/SignUpButton'
+import { useIsFocused } from '@react-navigation/native';
 
 const Login = ({navigation}) => {
 
     // To do: login handlers, forgot password, google auth, refactor using another input component
+    const isFocused = useIsFocused();
+
     const [formData,setformData] = useState({
         email:'',
         password:''
     })
     const [loading, setLoading] = React.useState(false);
 
-    // placeholder login function
+    useEffect(() => {
+        if (isFocused) {
+        // The screen is focused
+        // Reset the fields here if needed when the screen comes into focus
+        setformData({
+            email: '',
+            password: '',
+        });
+      }
+    }, [isFocused]);
+
     const login = () => {
         // console.log(JSON.stringify(formData))
         // fetch('http://thebigsad.southeastasia.cloudapp.azure.com:3000/login', {
@@ -52,13 +65,13 @@ const Login = ({navigation}) => {
                 <View style={{flexDirection:'column',paddingTop:50}} >
                     <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:Colors.light_grey,width:'95%',borderRadius:10,height:60,paddingLeft:20}} >
                         <Icon name="envelope-o" size={22} color="#818181" />
-                        <TextInput onChangeText={(text)=>{setformData((prevState)=>({...prevState,email:text}))}} style={styles.input} placeholder="Email" placeholderTextColor="#818181" />
-
+                        <TextInput onChangeText={(text)=>{setformData((prevState)=>({...prevState,email:text}))}} value = {formData.email} style={styles.input} placeholder="Email" placeholderTextColor="#818181" />
+                        
                     </View>
 
                     <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:Colors.light_grey,width:'95%',borderRadius:10,height:60,paddingLeft:20,marginTop:20}} >
                         <Icon name="lock" size={22} color="#818181" />
-                        <TextInput onChangeText={(text)=>{setformData((prevState)=>({...prevState,password:text}))}} style={styles.input} placeholder="Password" secureTextEntry={true} placeholderTextColor="#818181" />
+                        <TextInput onChangeText={(text)=>{setformData((prevState)=>({...prevState,password:text}))}} value = {formData.password} style={styles.input} placeholder="Password" secureTextEntry={true} placeholderTextColor="#818181" />
                     </View>
 
                     <View style={{width:'100%',marginBottom:10}} >
@@ -68,6 +81,7 @@ const Login = ({navigation}) => {
                     </View>
 
                     <SignUpButton title={"Get Parking!"} onPress={login} />
+
                 </View>
             </View>
 
