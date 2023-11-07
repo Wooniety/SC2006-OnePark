@@ -112,6 +112,7 @@ router.get('/carpark-availability/:ppCode', async function(req, res) {
     const ppCode = req.params.ppCode;
     
     try {
+        /*
         const response = await axios.get(url, {
             headers: {
                 'AccessKey': ACCESS_KEY,
@@ -125,6 +126,7 @@ router.get('/carpark-availability/:ppCode', async function(req, res) {
         // Extract lotsAvailable for carparks and motorcycles
         const carLots = relatedCarparks.find(park => park.lotType === 'C')?.lotsAvailable || "0";
         const motorcycleLots = relatedCarparks.find(park => park.lotType === 'M')?.lotsAvailable || "0";
+        */
 
         // Get carpark details from database
         pool.query("SELECT * FROM carpark_details WHERE ppCode = ?", [ppCode], function (err, results) {
