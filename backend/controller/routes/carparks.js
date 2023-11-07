@@ -4,10 +4,11 @@ var router = express.Router();
 const fs = require('fs');
 var bodyParser = require('body-parser');
 const pool = require('../database');
+//const pool = require('../../model/database_config')
 
 
 const ACCESS_KEY = '23a62fc2-4b29-489f-943a-d65dd12ec64e'
-const TOKEN = '2@2m-aJK546R4rhQR4FZ9-rPpe4cvCuCQscwpFG3e1reWbn4Xv229Vnyc6NMnh-T-+d2zfMEvdzEtdg5d-ad-Xag3WdJ93d6z4Q6'
+const TOKEN = 'ePe4sCf4499HNg4kJG4P6TeJeZ4cBX-E8eF9WHW2YVV1Y2d4226Y33GrDu2QGBHb6dus61vqdq2fd45297nXfjGTabej-axMcr79'
 
 /* GET carpark details */
 router.get('/fetch-carpark-details', async function(req, res) {

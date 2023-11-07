@@ -96,11 +96,11 @@ const users = {
 			}; 
 		}); // End of pool.query
 	}, // End of 'findByID' function
-	findByEmail: function(email, callback) {
-		findByEmailQuery = 
+	findByEmail: function(email, callback) {;
+		findByEmailQuery =
 		`
 			SELECT * FROM users
-			WHERE userid = ?
+			WHERE email = ?
 		`;
 
 		pool.query(findByEmailQuery, email, (err, result) => {
@@ -116,7 +116,7 @@ const users = {
 			return;
 			}; 
 		}); // End of pool.query
-	}, // End of 'findByID' function
+	}, // End of 'findByEmail' function
 	verify: function (email, password, callback) {
 		const verifyQuery = `
 			SELECT * FROM users

@@ -49,7 +49,7 @@ app.post('/login/', (request, response, next) => {
 		else {
 			// No user found / incorrect password
 			if (result === null) {
-				response.status(401).send("Please check your provided details");
+				response.status(401).send(`{\n"success": ${false}\n}`);
 				return;
 			}
 
@@ -119,7 +119,7 @@ app.post('/users/', (request, response, next) => {
 
 // Retrieve a single user by their userid
 app.get('/users/:userID', (request, response, next) => { 
-	const userID = request.params.userID;
+	let userID = request.params.userID;
 	
 	users.findByID(userID, (err, results) => {
 		// Errors
@@ -131,7 +131,7 @@ app.get('/users/:userID', (request, response, next) => {
 
 		// No errors
 		else {
-			response.status(200).send(results);
+			response.status(200).send(results[0]);
 			return;
 		};
 	});
@@ -140,20 +140,24 @@ app.get('/users/:userID', (request, response, next) => {
 // Check if email already exists
 // TODO
 app.get('/verify/email', (request, response, next) => { 
-	const email = request.params.email;
+	let email = request.body.email;
 	
 	users.findByEmail(email, (err, results) => {
 		// Errors
 		if (err) {
 			console.log(err);
-			response.status(500).send(results);
+			response.status(500).send("Internal Server Error");
 			return;
 		}
 
 		// No errors
 		else {
-			response.status(200).send(results);
-			return;
+			if (results.length > 0){
+				response.status(200).send(`{\n"success": ${true}\n}`);
+				return;
+			} else{
+				response.status(200).send(`{\n"success": ${false}\n}`);
+			}
 		};
 	});
 }); 
