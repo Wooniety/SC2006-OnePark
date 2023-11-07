@@ -201,7 +201,9 @@ export class CarparkDetails extends Component {
 
   fetchData = async () => {
     try {
-      const response = await fetch(`http://thebigsad.southeastasia.cloudapp.azure.com:3000/carparks/carpark-availability/A0004`);
+      const response = await fetch(
+        `http://thebigsad.southeastasia.cloudapp.azure.com:3000/carparks/carpark-availability/$%7Bthis.props.route.params.data.car_park_no%7D`
+      );
       const jsonData = await response.json();
       this.setState({data: jsonData});
       console.log(this.state.data);
@@ -216,7 +218,7 @@ export class CarparkDetails extends Component {
 
   render() {
     let lotInfo = this.state.data;
-    // let currentDate = new Date(this.state.date);
+    
 
     return (
       <View style={styles.container}>
@@ -250,16 +252,29 @@ export class CarparkDetails extends Component {
               elevation: 6,
             }}
           >
-            <Text
-              style={{
-                borderBottomWidth: 1,
-                borderBottomColor: "#d9d9d9",
-                paddingBottom: 10,
-                fontSize: 20,
-              }}
-            >
-              Parking Lot Details
-            </Text>
+            <View style={styles.savedButtonRow}>
+              <Text
+                style={{
+                  borderBottomWidth: 1,
+                  borderBottomColor: "#d9d9d9",
+                  paddingBottom: 10,
+                  fontSize: 20,
+                }}
+              >
+                Parking Lot Details
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                 alert("Carpark Saved!")
+                }}
+              >
+                <Image
+                  style={styles.savedButton}
+                  source={require("../assets/Images/save_icon.png")}
+                />
+              </TouchableOpacity>
+            </View>
+
             <Text style={{ fontSize: 15, paddingTop: 10 }}>
               Name : {this.props.route.params.data.car_park_no}
             </Text>
@@ -329,7 +344,7 @@ export default CarparkDetails;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 25,
+    paddingBottom: 30,
   },
   icon1: {
     marginLeft: 10,
@@ -370,6 +385,18 @@ const styles = StyleSheet.create({
   googleMaps_img: {
     width: 25,
     height: 25,
-    marginRight: 5
+    marginRight: 5,
+  },
+
+  savedButtonRow: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
+  },
+
+  savedButton: {
+    width: 25,
+    height: 25,
   },
 });

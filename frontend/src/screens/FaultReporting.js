@@ -69,9 +69,7 @@ const FaultReporting = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.icon1}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Menu")}
-          >
+          <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
             <Ionicons name="arrow-back" color={colors.white} size={30} />
           </TouchableOpacity>
         </View>
@@ -134,7 +132,7 @@ const FaultReporting = ({ navigation }) => {
             ></TextInput>
           </View>
 
-          <View
+          {/* <View
             style={{
               flexDirection: "row",
               //   backgroundColor: "#666",
@@ -177,11 +175,12 @@ const FaultReporting = ({ navigation }) => {
                 <Ionicons name="camera" size={20} color="black" />
               </View>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => {validate();
+            onPress={() => {
+              validate();
             }}
             style={{
               alignItems: "center",
@@ -196,47 +195,45 @@ const FaultReporting = ({ navigation }) => {
         </View>
 
         <Modal transparent={true} visible={showModal}>
-            <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
-              <View
-                style={{
-                  backgroundColor: "#ffffff",
-                  margin: 40,
-                  padding: 40,
-                  borderRadius: 20,
-                  flex: 1,
+          <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
+            <View
+              style={{
+                backgroundColor: "#ffffff",
+                margin: 40,
+                padding: 40,
+                borderRadius: 20,
+                flex: 1,
+              }}
+            >
+              <Image
+                style={{ height: 40, width: 40 }}
+                source={require("../assets/Images/success_icon.png")}
+              />
+              <Text style={{ fontSize: 25 }}>Thank You for your Feedback!</Text>
+              <Text style={{ fontSize: 12, paddingTop: 10 }}>Ref No: #01:</Text>
+              <Text style={{ fontSize: 18, paddingTop: 10 }}>
+                Summary of Report:
+              </Text>
+
+              <Text style={{ fontSize: 15, paddingTop: 15 }}>
+                Carpark Name: {inputs.carparkName}
+              </Text>
+              <Text style={{ fontSize: 15, paddingTop: 5 }}>
+                Carpark Code: {inputs.carparkCode}
+              </Text>
+              <Text style={{ fontSize: 15, paddingTop: 5, paddingBottom: 80 }}>
+                Description of Fault: {inputs.description}
+              </Text>
+
+              <Button
+                title="close"
+                onPress={() => {
+                  setShowModal(false);
                 }}
-              >
-                <Image
-                  style={{ height: 40, width: 40 }}
-                  source={require("../assets/Images/success_icon.png")}
-                />
-                <Text style={{ fontSize: 30 }}>Successfully Submitted</Text>
-                <Text style={{ fontSize: 18, paddingTop: 10 }}>
-                  Summary of Report:
-                </Text>
-                <Text style={{ fontSize: 15, paddingTop: 15 }}>
-                  Carpark Name: {inputs.carparkName}
-                </Text>
-                <Text style={{ fontSize: 15, paddingTop: 5 }}>
-                  Carpark Code: {inputs.carparkCode}
-                </Text>
-                <Text
-                  style={{ fontSize: 15, paddingTop: 5, paddingBottom: 80 }}
-                >
-                  Description of Fault: {inputs.description}
-                </Text>
-
-                <Button
-                  title="close"
-                  onPress={() => {
-                    setShowModal(false)
-                  }}
-                />
-              </View>
+              />
             </View>
-          </Modal>
-
-       
+          </View>
+        </Modal>
       </ScrollView>
     </View>
   );

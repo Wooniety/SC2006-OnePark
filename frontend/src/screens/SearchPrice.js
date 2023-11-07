@@ -20,23 +20,23 @@ import colors from "../constants/Colors";
 // } from "../controllers/CarparkData";
 
 const searchPrice = [
-  { id: "1", text: "ppppp" },
-  { id: "2", text: "pppp" },
-  { id: "3", text: "Item 3" },
-  { id: "4", text: "AMK Ave 6" },
-  { id: "5", text: "Item 3" },
-  { id: "6", text: "AMK Ave 6" },
-  { id: "7", text: "Item 3" },
-  { id: "8", text: "AMK Ave 6" },
-  { id: "9", text: "Item 3" },
-  { id: "10", text: "AMK Ave 6" },
-  { id: "11", text: "Item 3" },
-  { id: "12", text: "AMK Ave 6" },
-  { id: "13", text: "Item 3" },
-  { id: "14", text: "AMK Ave 6" },
-  { id: "15", text: "Item 3" },
-  { id: "16", text: "AMK Ave 6" },
-  { id: "17", text: "Item 3" },
+  { id: "1", text: "100 PASIR PANJANG" },
+  { id: "2", text: "27 WEST COAST HIGHWAY" },
+  { id: "3", text: "34 BOON LEAT TERRACE" },
+  { id: "4", text: "798 UPPER BUKIT TIMAH ROA" },
+  { id: "5", text: "ALEXANDRA RETAIL CENTRE" },
+  { id: "6", text: "ANCHORPOINT SHOPPING CENTRE" },
+  { id: "7", text: "AYER RAJAH INDUSTRIAL ESTATE - BLKS 20, 28" },
+  { id: "8", text: "BIJOU" },
+  { id: "9", text: "BIOPOLIS" },
+  { id: "10", text: "BUKIT PANJANG PLAZA" },
+  { id: "11", text: "BUKIT TIMAH SHOPPING CENTRE" },
+  { id: "12", text: "CORONATION SHOPPING PLAZA6" },
+  { id: "13", text: "GENTING HOTEL JURONG" },
+  { id: "14", text: "GILLMAN BARRACKS" },
+  { id: "15", text: "HILLV2" },
+  { id: "16", text: "HOLLAND ROAD SHOPPING CENTRE" },
+  { id: "17", text: "IMM BUILDING" },
 ];
 
 export default class SearchPrice extends Component {
@@ -67,6 +67,13 @@ export default class SearchPrice extends Component {
   //   });
   // }
 
+  constructor() {
+    super();
+    this.state = {
+      searchBar: "",
+    };
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -85,7 +92,7 @@ export default class SearchPrice extends Component {
             <Text style={styles.text1}>Search for a Carpark!</Text>
             <View style={styles.view1}>
               <View style={styles.view8}>
-                <Text style={styles.text2}>Find a spot. Take a nap.</Text>
+                <Text style={styles.text2}>Find your Ideal Spot!</Text>
               </View>
 
               <View>
@@ -102,12 +109,12 @@ export default class SearchPrice extends Component {
               <TextInput
                 style={styles.text3}
                 maxLength={20}
-                onChange={(text) => this.onChange("Search Carpark", text)}
+                onChange={(text) => this.setState({ searchBar: text })}
                 placeholder="Search Carpark"
               ></TextInput>
 
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("Menu")}
+                onPress={() => this.props.navigation.navigate("SearchNearby")}
               >
                 <Ionicons
                   name="search"
@@ -137,14 +144,13 @@ export default class SearchPrice extends Component {
               >
                 <Image
                   style={styles.image2}
-                  source={require("../assets/Images/save_icon.png")}
+                  source={require("../assets/Images/loc_icon.png")}
                 />
               </TouchableOpacity>
               <Text style={styles.title}>Nearby</Text>
             </View>
             <View style={styles.view2}>
-              <TouchableOpacity
-              >
+              <TouchableOpacity>
                 <Image
                   style={styles.image2}
                   source={require("../assets/Images/price_icon.png")}
@@ -154,9 +160,7 @@ export default class SearchPrice extends Component {
             </View>
             <View style={styles.view2}>
               <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate("SearchSeasonal")
-                }
+                onPress={() => this.props.navigation.navigate("SearchSeasonal")}
               >
                 <Image
                   style={styles.image2}
@@ -356,6 +360,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
     elevation: 6,
+    marginBottom: 15,
   },
 
   ListItem: {

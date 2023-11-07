@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dimensions, View, Image, Text, Linking } from "react-native";
+import { Dimensions, View, Image, Text, Linking, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Button, IconButton } from "react-native-paper";
 import BottomDrawer from "rn-bottom-sheet";
@@ -11,6 +11,8 @@ import { getCurrentLocation } from "../controllers/LocHandler";
 import DisplayMapStyles from "../constants/DisplayCarparkStyles";
 // import axios from axios;
 import data from "../assets/carpark.json";
+import colors from "../constants/Colors";
+import { Ionicons } from "@expo/vector-icons";
 
 
 import {
@@ -106,6 +108,7 @@ export default class Map extends Component {
   render() {
     return (
       <View style={styles.container}>
+
         {this.state.permissionGranted ? (
           <View style={styles.container}>
             <MapView
@@ -156,3 +159,4 @@ export default class Map extends Component {
     );
   }
 }
+

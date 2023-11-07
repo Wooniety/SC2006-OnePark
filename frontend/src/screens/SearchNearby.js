@@ -20,23 +20,14 @@ import colors from "../constants/Colors";
 // } from "../controllers/CarparkData";
 
 const searchNearby = [
-  { id: "1", text: "AMK Ave 31" },
-  { id: "2", text: "AMK Ave 6" },
-  { id: "3", text: "Item 3" },
-  { id: "4", text: "AMK Ave 6" },
-  { id: "5", text: "Item 3" },
-  { id: "6", text: "AMK Ave 6" },
-  { id: "7", text: "Item 3" },
-  { id: "8", text: "AMK Ave 6" },
-  { id: "9", text: "Item 3" },
-  { id: "10", text: "AMK Ave 6" },
-  { id: "11", text: "Item 3" },
-  { id: "12", text: "AMK Ave 6" },
-  { id: "13", text: "Item 3" },
-  { id: "14", text: "AMK Ave 6" },
-  { id: "15", text: "Item 3" },
-  { id: "16", text: "AMK Ave 6" },
-  { id: "17", text: "Item 3" },
+  { id: "1", text: "8 JURONG WEST STREET 51" },
+  { id: "2", text: "505 JURONG WEST STREET 52" },
+  { id: "3", text: "498 JURONG WEST STREET 41" },
+  { id: "4", text: "FIFTH LOK YANG ROAD" },
+  { id: "5", text: "81 BRICKLAND ROAD" },
+  { id: "6", text: "504 JURONG WEST STREET 51" },
+  { id: "7", text: "461 JURONG WEST STREET 41" },
+  { id: "8", text: "31 JURONG WEST STREET 24 " },
 ];
 
 export default class SearchNearby extends Component {
@@ -67,6 +58,13 @@ export default class SearchNearby extends Component {
   //   });
   // }
 
+  constructor() {
+    super();
+    this.state = {
+      searchBar: "",
+    };
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -85,7 +83,7 @@ export default class SearchNearby extends Component {
             <Text style={styles.text1}>Search for a Carpark!</Text>
             <View style={styles.view1}>
               <View style={styles.view8}>
-                <Text style={styles.text2}>Find a spot. Take a nap.</Text>
+                <Text style={styles.text2}>Find your Ideal Spot!</Text>
               </View>
 
               <View>
@@ -102,12 +100,12 @@ export default class SearchNearby extends Component {
               <TextInput
                 style={styles.text3}
                 maxLength={20}
-                onChange={(text) => this.onChange("Search Carpark", text)}
+                onChange={(text) => this.setState({ searchBar: text })}
                 placeholder="Search Carpark"
               ></TextInput>
 
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("Menu")}
+                onPress={() => this.props.navigation.navigate("SearchNearby")}
               >
                 <Ionicons
                   name="search"
@@ -132,11 +130,10 @@ export default class SearchNearby extends Component {
               <Text style={styles.title}>Saved</Text>
             </View>
             <View style={styles.view2}>
-              <TouchableOpacity
-              >
+              <TouchableOpacity>
                 <Image
                   style={styles.image2}
-                  source={require("../assets/Images/save_icon.png")}
+                  source={require("../assets/Images/loc_icon.png")}
                 />
               </TouchableOpacity>
               <Text style={styles.title}>Nearby</Text>
@@ -154,9 +151,7 @@ export default class SearchNearby extends Component {
             </View>
             <View style={styles.view2}>
               <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate("SearchSeasonal")
-                }
+                onPress={() => this.props.navigation.navigate("SearchSeasonal")}
               >
                 <Image
                   style={styles.image2}
@@ -356,6 +351,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
     elevation: 6,
+    marginBottom: 15,
   },
 
   ListItem: {

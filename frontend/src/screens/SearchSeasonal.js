@@ -20,23 +20,23 @@ import colors from "../constants/Colors";
 // } from "../controllers/CarparkData";
 
 const searchSeasonal = [
-  { id: "1", text: "Adfsdfds" },
-  { id: "2", text: "sadad" },
-  { id: "3", text: "Item 3" },
-  { id: "4", text: "AMK Ave 6" },
-  { id: "5", text: "Item 3" },
-  { id: "6", text: "AMK Ave 6" },
-  { id: "7", text: "Item 3" },
-  { id: "8", text: "AMK Ave 6" },
-  { id: "9", text: "Item 3" },
-  { id: "10", text: "AMK Ave 6" },
-  { id: "11", text: "Item 3" },
-  { id: "12", text: "AMK Ave 6" },
-  { id: "13", text: "Item 3" },
-  { id: "14", text: "AMK Ave 6" },
-  { id: "15", text: "Item 3" },
-  { id: "16", text: "AMK Ave 6" },
-  { id: "17", text: "Item 3" },
+  { id: "1", text: "ADAM ROAD FOOD CENTRE" },
+  { id: "2", text: "ANG MO KIO STREET 63" },
+  { id: "3", text: "ARMENIAN STREET " },
+  { id: "4", text: "BENG WAN ROAD OFF STREET" },
+  { id: "5", text: "BALESTIER ROAD " },
+  { id: "6", text: "BEDOK ROAD FOOD CENTRE OFF STREET" },
+  { id: "7", text: "BRIGHTON CRESCENT" },
+  { id: "8", text: "BENOI SECTOR " },
+  { id: "9", text: "BUKIT BATOK EAST AVENUE 2 HV PARK" },
+  { id: "10", text: "BUKIT BATOK ROAD / JURONG ROAD OFF STREET" },
+  { id: "11", text: "BUKIT PASOH  " },
+  { id: "12", text: "CASUARINA ROAD  " },
+  { id: "13", text: "BUKIT TIMAH MARKET OFF STREET" },
+  { id: "14", text: "CAIRNHILL ROAD SERVICE ROAD" },
+  { id: "15", text: "CHANGI BEACH PARK CP 1" },
+  { id: "16", text: "CHANGI BEACH PARK CP 6" },
+  { id: "17", text: "CHANGI ROAD " },
 ];
 
 export default class SearchSeasonal extends Component {
@@ -67,6 +67,13 @@ export default class SearchSeasonal extends Component {
   //   });
   // }
 
+  constructor() {
+    super();
+    this.state = {
+      searchBar: "",
+    };
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -85,7 +92,7 @@ export default class SearchSeasonal extends Component {
             <Text style={styles.text1}>Search for a Carpark!</Text>
             <View style={styles.view1}>
               <View style={styles.view8}>
-                <Text style={styles.text2}>Find a spot. Take a nap.</Text>
+                <Text style={styles.text2}>Find your Ideal Spot!</Text>
               </View>
 
               <View>
@@ -102,12 +109,12 @@ export default class SearchSeasonal extends Component {
               <TextInput
                 style={styles.text3}
                 maxLength={20}
-                onChange={(text) => this.onChange("Search Carpark", text)}
+                onChange={(text) => this.setState({ searchBar: text })}
                 placeholder="Search Carpark"
               ></TextInput>
 
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("Menu")}
+                onPress={() => this.props.navigation.navigate("SearchNearby")}
               >
                 <Ionicons
                   name="search"
@@ -137,7 +144,7 @@ export default class SearchSeasonal extends Component {
               >
                 <Image
                   style={styles.image2}
-                  source={require("../assets/Images/save_icon.png")}
+                  source={require("../assets/Images/loc_icon.png")}
                 />
               </TouchableOpacity>
               <Text style={styles.title}>Nearby</Text>
@@ -353,6 +360,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
     elevation: 6,
+    marginBottom: 15,
   },
 
   ListItem: {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { StyleSheet, View, Text, Image, ScrollView, ActivityIndicator, Modal, Button} from "react-native";
+import { StyleSheet, View, Text, Image, ScrollView, ActivityIndicator, Modal, Button, TouchableOpacity} from "react-native";
 
 import { Ionicons, Foundation } from "@expo/vector-icons";
 import ParkingSpotsCard from "../components/ParkingLotsCard";
@@ -11,22 +11,27 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Drawer } from "react-native-paper";
 import colors from "../constants/Colors";
 import VoiceRecCard from "../components/VoiceRecCard";
+import data from "../assets/carpark.json";
 
 export class Menu extends Component {
-
-  constructor (props){
+  constructor(props) {
     super(props);
     this.state = {
       loading: false,
       showModal: false,
-    }
-
+    
+    };
   }
 
-  toggleLoading =() => {
-    this.setState({loading: !this.state.loading});
-  }
+  toggleLoading = () => {
+    this.setState({ loading: !this.state.loading });
+     
 
+  };
+
+ 
+   
+  
 
   render() {
     return (
@@ -81,7 +86,7 @@ export class Menu extends Component {
             />
 
             <Modal transparent={true} visible={this.state.showModal}>
-              <View style={{ backgroundColor: "#000000aa", flex: 1}}>
+              <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
                 <View
                   style={{
                     backgroundColor: "#ffffff",
@@ -91,13 +96,35 @@ export class Menu extends Component {
                     flex: 0,
                     width: 300,
                     justifyContent: "center",
-                    height: 250
+                    height: 250,
                   }}
                 >
-                  <Image
-                    style={{ height: 90, width: 90, justifyContent: "center" }}
-                    source={require("../assets/Images/voice_icon.png")}
-                  />
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("CarparkDetails", {
+                        
+                          data: {
+                            car_park_no: "T0142",
+                            latitude: 1.3131311428,
+                            longitude: 103.6529735766,
+                          },
+                        
+                      })
+                    }
+                  >
+                    <Image
+                      style={{
+                        height: 90,
+                        width: 90,
+                        alignSelf: "center",
+                      }}
+                      source={require("../assets/Images/voice_icon.png")}
+                    />
+
+                    <View>
+                      <Text style={styles.textListening}>Listening...</Text>
+                    </View>
+                  </TouchableOpacity>
 
                   {this.state.loading && (
                     <ActivityIndicator size="large" color="#0000ff" />
@@ -159,5 +186,11 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 16,
     paddingBottom: 20,
+  },
+
+  textListening: {
+    
+    fontSize: 18,
+    paddingBottom: 10,
   },
 });
