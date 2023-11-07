@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-
 const SCREEN_WIDTH = Dimensions.get("window").width;
 import colors from "../constants/Colors";
 // import {
@@ -20,9 +19,9 @@ import colors from "../constants/Colors";
 //   updateCarparkWithLotAvailability,
 // } from "../controllers/CarparkData";
 
-const searchLocation = [
-  { id: "1", text: "AMK Ave 31" },
-  { id: "2", text: "AMK Ave 6" },
+const searchPrice = [
+  { id: "1", text: "ppppp" },
+  { id: "2", text: "pppp" },
   { id: "3", text: "Item 3" },
   { id: "4", text: "AMK Ave 6" },
   { id: "5", text: "Item 3" },
@@ -40,8 +39,7 @@ const searchLocation = [
   { id: "17", text: "Item 3" },
 ];
 
-
-export default class Search extends Component {
+export default class SearchPrice extends Component {
   // constructor() {
   //   super();
   //   this.state = {
@@ -146,7 +144,6 @@ export default class Search extends Component {
             </View>
             <View style={styles.view2}>
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("SearchPrice")}
               >
                 <Image
                   style={styles.image2}
@@ -173,7 +170,7 @@ export default class Search extends Component {
           <View style={styles.List}>
             <FlatList
               keyExtractor={(item) => item.id}
-              data={searchLocation}
+              data={searchPrice}
               renderItem={({ item }) => (
                 <View>
                   <TouchableOpacity

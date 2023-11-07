@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 
 import {
   StyleSheet,
@@ -9,7 +9,9 @@ import {
   TouchableOpacity,
   ScrollView,
   Button,
-  Image
+  Image,
+  Alert,
+  Keyboard,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -17,281 +19,183 @@ import colors from "../constants/Colors";
 import style from "../constants/Styles";
 import { Ionicons } from "@expo/vector-icons";
 
-export class FaultReporting extends Component {
-  //   static contextType = GlobalContext;
+const FaultReporting = ({ navigation }) => {
 
-  //   state = {
-  //     selectLocationMapsModel: false,
-  //     location: false,
-  //     parkingLotName: "",
-  //     parkingLotNameError: false,
-  //     parkingLotAddress: "",
-  //     parkingLotAddressError: false,
-  //     parkingLotPinCode: "",
-  //     parkingLotPinCodeError: false,
-  //     hourlyRate: 0,
-  //     totalSpot: "",
-  //     partotalSpotError: false,
-  //     loadingSpinner: false,
-  //   };
-  //   BackIcon = (style) => <Icon {...style} name="arrow-ios-back-outline" />;
+  const [inputs, setInputs] = React.useState({
+    carparkName: "",
+    carparkCode: "",
+    description: "",
+  })
 
-  //   BackAction = () => (
-  // //     <TopNavigationAction
-  // //       icon={this.BackIcon}
-  // //       onPressIn={() => this.props.navigation.goBack()}
-  // //     />
-  // //   );
+  const [showModal, setShowModal] = useState(false)
+  const [errors, setErrors] = React.useState({})
 
-  //   handleSignIn = () => {
-  //     let error = false;
-  //     if (this.state.parkingLotName.length == 0) {
-  //       this.setState({ parkingLotNameError: "required" });
-  //       error = true;
-  //     } else if (this.state.parkingLotName.length < 3) {
-  //       this.setState({ parkingLotNameError: "Minimum 3 character required" });
-  //       error = true;
-  //     } else {
-  //       this.setState({ parkingLotNameError: false });
-  //     }
-  //     if (this.state.parkingLotAddress.length == 0) {
-  //       this.setState({ parkingLotAddressError: true });
-  //       error = true;
-  //     } else {
-  //       this.setState({ parkingLotAddressError: false });
-  //     }
-  //     if (this.state.parkingLotPinCode.length == 0) {
-  //       this.setState({ parkingLotPinCodeError: true });
-  //       error = true;
-  //     } else {
-  //       this.setState({ parkingLotPinCodeError: false });
-  //     }
-  //     if (this.state.totalSpot.length == 0) {
-  //       this.setState({ partotalSpotError: true });
-  //       error = true;
-  //     } else {
-  //       this.setState({ partotalSpotError: false });
-  //     }
-  //     if (this.state.location === false) {
-  //       ToastAndroid.show("Please Select Location First", 2000);
+  const validate = () => {
+    Keyboard.dismiss();
+    let isValid = true;
 
-  //       error = true;
-  //     }
-  //     if (error) {
-  //       return;
-  //     }
-  //     this.setState({ loadingSpinner: true });
+    if (!inputs.carparkName) {
+      handleError("Please input Carpark Name!", "carparkName");
+      isValid = false;
+      Alert.alert("Error", "Please fill up the Carpark Name!");
+    } else if (!inputs.carparkCode) {
+      handleError("Please input Carpark Code!", "carparkName");
+      isValid = false;
+      Alert.alert("Error", "Please fill up the Carpark Code!");
+    } else if (!inputs.description) {
+      handleError("Please input a Description!", "carparkName");
+      Alert.alert("Error", "Please fill up the description!");
+      isValid = false;
+    }
+    else if (isValid) {
+      submit();
+      
+    }
+  };
 
-  //     axios
-  //       .post(
-  //         serverUrl + "/parking" + this.context.state.loginData.user_user_id,
-  //         {
-  //           name: this.state.parkingLotName,
-  //           address: this.state.parkingLotAddress,
-  //           pin: this.state.parkingLotPinCode,
-  //           longitude: String(this.state.location.coords.longitude),
-  //           latitude: String(this.state.location.coords.latitude),
-  //           price: this.state.hourlyRate,
-  //           total: this.state.totalSpot,
-  //         },
-  //         {
-  //           headers: {
-  //             "jwt-token": this.context.state.loginData["jwt-token"],
-  //           },
-  //         }
-  //       )
-  //       .then((response) => {
-  //         this.setState({ loadingSpinner: false });
-
-  //         ToastAndroid.show("Parking Lot Created Successfully", 2000);
-  //       })
-  //       .catch((error) => {
-  //         this.setState({ loadingSpinner: false });
-  //         console.log(error);
-  //         if (
-  //           error.response &&
-  //           error.response.status === 400 &&
-  //           error.response.data == "Invalid Data"
-  //         ) {
-  //           ToastAndroid.show("Invalid Data", 2000);
-  //         } else {
-  //           ToastAndroid.show("Something went wrong, please try again", 2000);
-  //         }
-  //       });
-  //   };
-
-  //   onSelectMapClose = (loc) => {
-  //     this.setState({ selectLocationMapsModel: false });
-  //     this.setState({ location: loc });
-  //   };
-  //   onChange = (name, e) => {
-  //     let text = e.nativeEvent.text;
-  //     this.setState({ [name]: text });
-  //   };
-  //   handleSelectLocation = () => {
-  //     this.setState({ selectLocationMapsModel: true });
-  //   };
-
-  // BackIcon = (style) => <Icon {...style} name="arrow-ios-back-outline" />;
-
-  // BackAction = () => (
-  //   <TabActions
-  //     icon={this.BackIcon}
-  //     onPressIn={() => this.props.navigation.goBack()}
-  //   />
-  // );
-
-  constructor() {
-    super();
-    this.state = {
-      showModal: false,
-      carparkName: "",
-      carparkCode: "",
-      description: "",
-    };
-
-    
+  const submit = () =>{
+      setShowModal(true);
   }
+  
 
- 
+  const handleOnchange = (text, input) => {
+    setInputs((prevState) => ({ ...prevState, [input]: text }));
+  };
+  const handleError = (error, input) => {
+    setErrors((prevState) => ({ ...prevState, [input]: error }));
+  };
 
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.icon1}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Menu")}
+          >
+            <Ionicons name="arrow-back" color={colors.white} size={30} />
+          </TouchableOpacity>
+        </View>
+      </View>
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.icon1}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("Menu")}
-            >
-              <Ionicons name="arrow-back" color={colors.white} size={30} />
-            </TouchableOpacity>
+      <ScrollView bounces={false}>
+        <View style={styles.home}>
+          <Text style={styles.text1}>Fault Reporting</Text>
+          <View style={styles.view1}>
+            <View style={styles.view8}>
+              <Text style={styles.text2}>
+                Notice issues wth a carpark? Let us know!
+              </Text>
+            </View>
           </View>
         </View>
 
-        <ScrollView bounces={false}>
-          <View style={styles.home}>
-            <Text style={styles.text1}>Fault Reporting</Text>
-            <View style={styles.view1}>
-              <View style={styles.view8}>
-                <Text style={styles.text2}>
-                  Notice issues wth a carpark? Let us know!
-                </Text>
-              </View>
-            </View>
+        <View
+          style={{
+            alignItems: "center",
+            marginTop: 10,
+          }}
+        >
+          <View style={style.style.input}>
+            <TextInput
+              maxLength={20}
+              onFocus={() => handleError(null, "carparkName")}
+              placeholder="Enter Carpark Name"
+              onChangeText={(text) => handleOnchange(text, "carparkName")}
+              style={{
+                width: "85%",
+              }}
+              error={errors.carparkName}
+            ></TextInput>
+          </View>
+
+          <View style={style.style.input}>
+            <TextInput
+              maxLength={20}
+              placeholder="Enter Carpark Code"
+              onFocus={() => handleError(null, "carparkCode")}
+              onChangeText={(text) => handleOnchange(text, "carparkCode")}
+              style={{
+                width: "85%",
+              }}
+              error={errors.carparkCode}
+            ></TextInput>
+          </View>
+
+          <View style={style.style.input}>
+            <TextInput
+              maxLength={20}
+              onFocus={() => handleError(null, "description")}
+              placeholder="Description of Fault"
+              onChangeText={(text) => handleOnchange(text, "description")}
+              style={{
+                width: "85%",
+              }}
+              error={errors.description}
+            ></TextInput>
           </View>
 
           <View
             style={{
-              alignItems: "center",
-              marginTop: 10,
+              flexDirection: "row",
+              //   backgroundColor: "#666",
+              justifyContent: "center",
+              width: "80%",
+              // backgroundColor:"red",
+              padding: 0,
+              marginBottom: 0,
             }}
           >
-            <View style={style.style.input}>
-              <TextInput
-                maxLength={20}
-                placeholder="Enter Carpark Name"
-                onChangeText={(text) => {
-                  this.setState({ carparkName: text });
-                }}
-                style={{
-                  width: "85%",
-                }}
-                require
-              ></TextInput>
-            </View>
-
-            <View style={style.style.input}>
-              <TextInput
-                maxLength={20}
-                placeholder="Enter Carpark Code"
-                onChangeText={(text) => {
-                  this.setState({ carparkCode: text });
-                }}
-                style={{
-                  width: "85%",
-                }}
-                require
-              ></TextInput>
-            </View>
-
-            <View style={style.style.input}>
-              <TextInput
-                maxLength={20}
-                placeholder="Description of Fault"
-                onChangeText={(text) => {
-                  this.setState({ description: text });
-                }}
-                style={{
-                  width: "85%",
-                }}
-                require
-              ></TextInput>
-            </View>
-
-            <View
-              style={{
-                flexDirection: "row",
-                //   backgroundColor: "#666",
-                justifyContent: "center",
-                width: "80%",
-                // backgroundColor:"red",
-                padding: 0,
-                marginBottom: 0,
-              }}
-            >
-              <TouchableOpacity
-                activeOpacity={0.7}
-                // onPress={() => {
-                //   this.handleSelectLocation();
-                // }}
-                style={{
-                  alignItems: "left",
-                  justifyContent: "center",
-                  width: "100%",
-                  marginVertical: 20,
-                  borderWidth: 0.1,
-                  borderColor: colors.primary,
-                  padding: 10,
-                  //   marginTop: 20,
-                  marginBottom: 0,
-                  borderRadius: 10,
-                  flexDirection: "row",
-                  backgroundColor: "#fff",
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 1,
-                  },
-                  shadowOpacity: 0.22,
-                  shadowRadius: 2.22,
-                  elevation: 3,
-                }}
-              >
-                <View>
-                  <Ionicons name="camera" size={20} color="black" />
-                </View>
-              </TouchableOpacity>
-            </View>
-
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => {
-                this.setState({ showModal: true });
-              }}
+              // onPress={() => {
+              //   this.handleSelectLocation();
+              // }}
               style={{
-                alignItems: "center",
+                alignItems: "left",
+                justifyContent: "center",
                 width: "100%",
-                marginVertical: 30,
+                marginVertical: 20,
+                borderWidth: 0.1,
+                borderColor: colors.primary,
+                padding: 10,
+                //   marginTop: 20,
+                marginBottom: 0,
+                borderRadius: 10,
+                flexDirection: "row",
+                backgroundColor: "#fff",
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.22,
+                shadowRadius: 2.22,
+                elevation: 3,
               }}
             >
-              <View style={style.style.button}>
-                <Text style={{ color: "white" }}>Submit</Text>
+              <View>
+                <Ionicons name="camera" size={20} color="black" />
               </View>
             </TouchableOpacity>
           </View>
 
-          <Modal transparent={true} visible={this.state.showModal}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {validate();
+            }}
+            style={{
+              alignItems: "center",
+              width: "100%",
+              marginVertical: 30,
+            }}
+          >
+            <View style={style.style.button}>
+              <Text style={{ color: "white" }}>Submit</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <Modal transparent={true} visible={showModal}>
             <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
               <View
                 style={{
@@ -303,35 +207,40 @@ export class FaultReporting extends Component {
                 }}
               >
                 <Image
-                  style={{height: 40, width: 40}}
+                  style={{ height: 40, width: 40 }}
                   source={require("../assets/Images/success_icon.png")}
                 />
                 <Text style={{ fontSize: 30 }}>Successfully Submitted</Text>
-                <Text style={{ fontSize: 18, paddingTop: 10 }}>Summary of Report:</Text>
+                <Text style={{ fontSize: 18, paddingTop: 10 }}>
+                  Summary of Report:
+                </Text>
                 <Text style={{ fontSize: 15, paddingTop: 15 }}>
-                  Carpark Name: {this.state.carparkName}
+                  Carpark Name: {inputs.carparkName}
                 </Text>
                 <Text style={{ fontSize: 15, paddingTop: 5 }}>
-                  Carpark Code: {this.state.carparkCode}
+                  Carpark Code: {inputs.carparkCode}
                 </Text>
-                <Text style={{ fontSize: 15, paddingTop: 5, paddingBottom: 80}}>
-                  Description of Fault: {this.state.description}
+                <Text
+                  style={{ fontSize: 15, paddingTop: 5, paddingBottom: 80 }}
+                >
+                  Description of Fault: {inputs.description}
                 </Text>
 
                 <Button
                   title="close"
                   onPress={() => {
-                    this.setState({ showModal: false });
+                    setShowModal(false)
                   }}
                 />
               </View>
             </View>
           </Modal>
-        </ScrollView>
-      </View>
-    );
-  }
-}
+
+       
+      </ScrollView>
+    </View>
+  );
+};
 
 export default FaultReporting;
 

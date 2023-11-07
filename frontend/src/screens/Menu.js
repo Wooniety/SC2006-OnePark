@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
+import { StyleSheet, View, Text, Image, ScrollView, ActivityIndicator, Modal, Button} from "react-native";
 
 import { Ionicons, Foundation } from "@expo/vector-icons";
 import ParkingSpotsCard from "../components/ParkingLotsCard";
@@ -10,8 +10,24 @@ import LogoutCard from "../components/LogoutCard";
 import { NavigationContainer } from "@react-navigation/native";
 import { Drawer } from "react-native-paper";
 import colors from "../constants/Colors";
+import VoiceRecCard from "../components/VoiceRecCard";
 
 export class Menu extends Component {
+
+  constructor (props){
+    super(props);
+    this.state = {
+      loading: false,
+      showModal: false,
+    }
+
+  }
+
+  toggleLoading =() => {
+    this.setState({loading: !this.state.loading});
+  }
+
+
   render() {
     return (
       <View style={styles.container}>
@@ -37,16 +53,11 @@ export class Menu extends Component {
               flexDirection: "row",
               justifyContent: "space-between",
               marginHorizontal: 20,
-              flexWrap: "wrap-reverse",
-              marginTop: 50,
+              flexWrap: "wrap",
+              marginTop: 20,
+              marginBottom: 20,
             }}
           >
-            <FaultReportingCard
-              onClick={() => this.props.navigation.navigate("FaultReporting")}
-            />
-
-            <LogoutCard onClick={() => this.props.navigation.navigate("Login")} />
-
             <ParkingSpotsCard
               onClick={() => this.props.navigation.navigate("Map")}
             />
@@ -54,6 +65,53 @@ export class Menu extends Component {
             <SearchCarparksCard
               onClick={() => this.props.navigation.navigate("Search")}
             />
+            <FaultReportingCard
+              onClick={() => this.props.navigation.navigate("FaultReporting")}
+            />
+
+            <VoiceRecCard
+              onClick={() => {
+                this.setState({ showModal: true });
+                this.toggleLoading();
+              }}
+            />
+
+            <LogoutCard
+              onClick={() => this.props.navigation.navigate("Login")}
+            />
+
+            <Modal transparent={true} visible={this.state.showModal}>
+              <View style={{ backgroundColor: "#000000aa", flex: 1}}>
+                <View
+                  style={{
+                    backgroundColor: "#ffffff",
+                    margin: 40,
+                    padding: 40,
+                    borderRadius: 20,
+                    flex: 0,
+                    width: 300,
+                    justifyContent: "center",
+                    height: 250
+                  }}
+                >
+                  <Image
+                    style={{ height: 90, width: 90, justifyContent: "center" }}
+                    source={require("../assets/Images/voice_icon.png")}
+                  />
+
+                  {this.state.loading && (
+                    <ActivityIndicator size="large" color="#0000ff" />
+                  )}
+
+                  <Button
+                    title="Cancel"
+                    onPress={() => {
+                      this.setState({ showModal: false });
+                    }}
+                  />
+                </View>
+              </View>
+            </Modal>
           </View>
         </ScrollView>
       </View>
