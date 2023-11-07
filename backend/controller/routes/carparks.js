@@ -8,7 +8,7 @@ const pool = require('../database');
 
 
 const ACCESS_KEY = '23a62fc2-4b29-489f-943a-d65dd12ec64e'
-const TOKEN = 'ePe4sCf4499HNg4kJG4P6TeJeZ4cBX-E8eF9WHW2YVV1Y2d4226Y33GrDu2QGBHb6dus61vqdq2fd45297nXfjGTabej-axMcr79'
+const TOKEN = 'H-f+UTX24161TRRq9bjY@AyGN4Y82ax8tdyGbd7DbGphkcW+62T6v4ac2c9Z9K-4ccTBFC4VGcpkTKkRbMSu4a22y2uRjeS34ZVF'
 
 /* GET carpark details */
 router.get('/fetch-carpark-details', async function(req, res) {
